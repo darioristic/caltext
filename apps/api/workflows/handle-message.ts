@@ -63,7 +63,7 @@ async function sendReply(userId: string, text: string) {
   "use step";
   const user = await getUser(userId);
   if (!user) return;
-  const rawPhone = decrypt(user.phone);
+  const rawPhone = await decrypt(user.phone);
   const bot = Chat.getSingleton();
   const dm = await bot.openDM(`sendblue:${rawPhone}`);
   await dm.post(text);

@@ -13,7 +13,7 @@ import { reminderLoop } from "./reminder-loop.js";
 
 async function sendMessage(userId: string, encryptedPhone: string, text: string) {
   "use step";
-  const rawPhone = decrypt(encryptedPhone);
+  const rawPhone = await decrypt(encryptedPhone);
   const bot = Chat.getSingleton();
   const dm = await bot.openDM(`sendblue:${rawPhone}`);
   await dm.post(text);

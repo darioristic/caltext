@@ -1,36 +1,68 @@
-import { createCipheriv, createDecipheriv, createHmac } from "node:crypto";
 import { env } from "./env.js";
 
-const ALGORITHM = "aes-256-cbc";
+const ALGORITHM = "AES-CBC";
 
-function getKey(): Buffer {
-  return Buffer.from(env.ENCRYPTION_KEY, "hex");
-}
-
-function deriveIv(plaintext: string): Buffer {
-  return createHmac("sha256", getKey())
-    .update(plaintext)
-    .digest()
-    .subarray(0, 16);
-}
-
-export function encrypt(plaintext: string): string {
-  const key = getKey();
-  const iv = deriveIv(plaintext);
-  const cipher = createCipheriv(ALGORITHM, key, iv);
-  const encrypted = Buffer.concat([
-    iv,
-    cipher.update(plaintext, "utf8"),
-    cipher.final(),
+async function getKey(): Promise<CryptoKey> {
+  const raw = hexToBytes(env.ENCRYPTION_KEY);
+  return crypto.subtle.importKey("raw", raw, { name: ALGORITHM }, false, [
+    "encrypt",
+    "decrypt",
   ]);
-  return encrypted.toString("base64url");
 }
 
-export function decrypt(token: string): string {
-  const key = getKey();
-  const raw = Buffer.from(token, "base64url");
-  const iv = raw.subarray(0, 16);
-  const ciphertext = raw.subarray(16);
-  const decipher = createDecipheriv(ALGORITHM, key, iv);
-  return decipher.update(ciphertext) + decipher.final("utf8");
+async function deriveIv(plaintext: string): Promise<Uint8Array> {
+  const raw = hexToBytes(env.ENCRYPTION_KEY);
+  const key = await crypto.subtle.importKey(
+    "raw",
+    raw,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(plaintext));
+  return new Uint8Array(sig).slice(0, 16);
+}
+
+export async function encrypt(plaintext: string): Promise<string> {
+  const key = await getKey();
+  const iv = await deriveIv(plaintext);
+  const encoded = new TextEncoder().encode(plaintext);
+  const ciphertext = await crypto.subtle.encrypt({ name: ALGORITHM, iv }, key, encoded);
+  const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+  combined.set(iv, 0);
+  combined.set(new Uint8Array(ciphertext), iv.length);
+  return bytesToBase64Url(combined);
+}
+
+export async function decrypt(token: string): Promise<string> {
+  const key = await getKey();
+  const raw = base64UrlToBytes(token);
+  const iv = raw.slice(0, 16);
+  const ciphertext = raw.slice(16);
+  const decrypted = await crypto.subtle.decrypt({ name: ALGORITHM, iv }, key, ciphertext);
+  return new TextDecoder().decode(decrypted);
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  const bytes = new Uint8Array(hex.length / 2);
+  for (let i = 0; i < bytes.length; i++) {
+    bytes[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
+  }
+  return bytes;
+}
+
+function bytesToBase64Url(bytes: Uint8Array): string {
+  const binary = String.fromCharCode(...bytes);
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function base64UrlToBytes(str: string): Uint8Array {
+  const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+  const binary = atob(padded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
 }

@@ -30,7 +30,7 @@ Totals: ${log.calories} kcal, ${Math.round(log.protein)}g P, ${Math.round(log.ca
 Streak: ${streak.current} days`,
   });
 
-  const rawPhone = decrypt(user.phone);
+  const rawPhone = await decrypt(user.phone);
   const bot = Chat.getSingleton();
   const dm = await bot.openDM(`sendblue:${rawPhone}`);
   await dm.post(result.text);

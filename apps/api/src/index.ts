@@ -14,7 +14,7 @@ app.post("/webhooks/sendblue", async (c) => {
 
 async function handleIncoming(thread: Thread, message: Message) {
   const rawPhone = thread.id.split(":")[1] ?? "";
-  const encryptedPhone = encrypt(rawPhone);
+  const encryptedPhone = await encrypt(rawPhone);
   const text = message.text ?? "";
   const imageUrl = message.attachments?.[0]?.url;
 

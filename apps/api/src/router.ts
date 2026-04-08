@@ -16,7 +16,7 @@ export async function routeMessage(
   if (!userId) {
     const newId = generateId();
     await createPhoneMapping(encryptedPhone, newId);
-    const region = detectRegion(decrypt(encryptedPhone));
+    const region = detectRegion(await decrypt(encryptedPhone));
     await start(onboardingWorkflow, [
       newId,
       encryptedPhone,
