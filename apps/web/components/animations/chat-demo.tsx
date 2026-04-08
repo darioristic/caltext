@@ -187,7 +187,7 @@ function AppIconSquare({ size = 38, borderRadius = 12 }: { size?: number; border
         width: size,
         height: size,
         borderRadius,
-        border: "0.608px solid rgba(92,92,92,0.4)",
+        border: "0.608px solid rgba(60,60,60,0.9)",
         background: "linear-gradient(180deg, rgba(228,228,228,0.25) 0%, #B0B0B0 53.5%, #E4E4E4 100%)",
         padding: 1,
         boxShadow: "0 19.44px 19.44px -19.44px rgba(0,0,0,0.05), 0 4.86px 4.86px -4.86px rgba(0,0,0,0.1), 0 9.72px 9.72px -9.72px rgba(0,0,0,0.08), inset 0 2px 0 rgba(255,255,255,0.85), inset 0 -2px 0 rgba(0,0,0,0.25)",
