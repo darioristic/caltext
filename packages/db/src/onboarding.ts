@@ -1,5 +1,5 @@
-import { getRedis } from "./client.js";
 import type { OnboardingState } from "@caltext/shared";
+import { getRedis } from "./client.js";
 
 const onboardingKey = (userId: string) => `onboarding:${userId}`;
 const TTL_24H = 60 * 60 * 24;
@@ -7,7 +7,7 @@ const TTL_24H = 60 * 60 * 24;
 export async function getOnboardingState(userId: string): Promise<OnboardingState | null> {
   const redis = getRedis();
   const data = await redis.hgetall<Record<string, string>>(onboardingKey(userId));
-  if (!data || !data.step) return null;
+  if (!data?.step) return null;
   return {
     step: data.step as OnboardingState["step"],
     name: data.name,
@@ -23,7 +23,10 @@ export async function getOnboardingState(userId: string): Promise<OnboardingStat
   };
 }
 
-export async function setOnboardingState(userId: string, state: Partial<OnboardingState>): Promise<void> {
+export async function setOnboardingState(
+  userId: string,
+  state: Partial<OnboardingState>,
+): Promise<void> {
   const redis = getRedis();
   const flat: Record<string, string> = {};
   for (const [k, v] of Object.entries(state)) {

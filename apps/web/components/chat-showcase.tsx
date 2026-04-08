@@ -2,10 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatDemoRail, DEMO_STORIES } from "@/components/chat-demo-rail";
-import {
-  ChatIMessageAnimation,
-  type ChatDemoScenario,
-} from "./animations/chat-demo";
+import { type ChatDemoScenario, ChatIMessageAnimation } from "./animations/chat-demo";
 import { IPhoneMock } from "./iphone-mock";
 
 const PHONE_W = 418;
@@ -18,8 +15,7 @@ const MOBILE_PHONE_MIN_SCALE = 0.44;
 const MOBILE_PHONE_SAFE_X = 24;
 const MOBILE_PHONE_SAFE_Y = 120;
 
-const DESKTOP_PHONE_H =
-  Math.round(PHONE_H * DESKTOP_SCALE) + DESKTOP_FRAME_GUTTER;
+const DESKTOP_PHONE_H = Math.round(PHONE_H * DESKTOP_SCALE) + DESKTOP_FRAME_GUTTER;
 
 export function ChatShowcase() {
   const [mounted, setMounted] = useState(false);
@@ -28,16 +24,13 @@ export function ChatShowcase() {
   const [mobileScenarioIndex, setMobileScenarioIndex] = useState(0);
   const [mobilePlaying, setMobilePlaying] = useState(true);
   const [mobileStartAtEnd, setMobileStartAtEnd] = useState(false);
-  const [activeScenario, setActiveScenario] =
-    useState<ChatDemoScenario>("snapOrText");
+  const [activeScenario, setActiveScenario] = useState<ChatDemoScenario>("snapOrText");
   const [demoActive, setDemoActive] = useState(false);
   const [hasExitedDemo, setHasExitedDemo] = useState(false);
   const [stickyTop, setStickyTop] = useState(12);
 
   const mobilePauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const sectionRefs = useRef<Partial<Record<ChatDemoScenario, HTMLElement | null>>>(
-    {},
-  );
+  const sectionRefs = useRef<Partial<Record<ChatDemoScenario, HTMLElement | null>>>({});
   const demoSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -49,23 +42,17 @@ export function ChatShowcase() {
       setIsMobileViewport(window.innerWidth < 1024);
 
       const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
-      const viewportHeight =
-        window.visualViewport?.height ?? window.innerHeight;
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
 
       setStickyTop(Math.max(12, Math.round((viewportHeight - DESKTOP_PHONE_H) / 2)));
-      const availableWidth =
-        viewportWidth - MOBILE_PHONE_SAFE_X - MOBILE_FRAME_GUTTER * 2;
-      const availableHeight =
-        viewportHeight - MOBILE_PHONE_SAFE_Y - MOBILE_FRAME_GUTTER;
+      const availableWidth = viewportWidth - MOBILE_PHONE_SAFE_X - MOBILE_FRAME_GUTTER * 2;
+      const availableHeight = viewportHeight - MOBILE_PHONE_SAFE_Y - MOBILE_FRAME_GUTTER;
 
       const widthScale = availableWidth / PHONE_W;
       const heightScale = availableHeight / PHONE_H;
 
       setMobileScale(
-        Math.max(
-          MOBILE_PHONE_MIN_SCALE,
-          Math.min(MOBILE_SCALE, widthScale, heightScale),
-        ),
+        Math.max(MOBILE_PHONE_MIN_SCALE, Math.min(MOBILE_SCALE, widthScale, heightScale)),
       );
     };
 
@@ -114,9 +101,7 @@ export function ChatShowcase() {
       }
 
       const rect = section.getBoundingClientRect();
-      const isPhoneSticky =
-        rect.top <= stickyTop &&
-        rect.bottom >= window.innerHeight * 0.25;
+      const isPhoneSticky = rect.top <= stickyTop && rect.bottom >= window.innerHeight * 0.25;
       setDemoActive(isPhoneSticky);
       setHasExitedDemo(rect.bottom <= window.innerHeight + 16);
 
@@ -194,10 +179,8 @@ export function ChatShowcase() {
               <div
                 className="relative"
                 style={{
-                  width:
-                    Math.round(PHONE_W * mobileScale) + MOBILE_FRAME_GUTTER * 2,
-                  height:
-                    Math.round(PHONE_H * mobileScale) + MOBILE_FRAME_GUTTER,
+                  width: Math.round(PHONE_W * mobileScale) + MOBILE_FRAME_GUTTER * 2,
+                  height: Math.round(PHONE_H * mobileScale) + MOBILE_FRAME_GUTTER,
                 }}
               >
                 <div
@@ -225,7 +208,6 @@ export function ChatShowcase() {
               onSelect={selectMobileScenario}
               size="sm"
             />
-
           </div>
         </section>
       ) : null}
@@ -234,16 +216,15 @@ export function ChatShowcase() {
         <section ref={demoSectionRef} className="relative hidden pt-0 lg:block">
           <div className="mx-auto max-w-6xl px-6">
             <div className="relative">
-              <div className="sticky z-10 flex flex-col items-center gap-5" style={{ top: stickyTop }}>
+              <div
+                className="sticky z-10 flex flex-col items-center gap-5"
+                style={{ top: stickyTop }}
+              >
                 <div
                   className="relative"
                   style={{
-                    width:
-                      Math.round(PHONE_W * DESKTOP_SCALE) +
-                      DESKTOP_FRAME_GUTTER * 2,
-                    height:
-                      Math.round(PHONE_H * DESKTOP_SCALE) +
-                      DESKTOP_FRAME_GUTTER,
+                    width: Math.round(PHONE_W * DESKTOP_SCALE) + DESKTOP_FRAME_GUTTER * 2,
+                    height: Math.round(PHONE_H * DESKTOP_SCALE) + DESKTOP_FRAME_GUTTER,
                   }}
                 >
                   <div
@@ -270,7 +251,6 @@ export function ChatShowcase() {
                     className="flex justify-center px-3 sm:px-4 lg:px-6"
                   />
                 ) : null}
-
               </div>
 
               <div className="pointer-events-none relative -mt-[62vh] pb-18 pt-[55vh]">

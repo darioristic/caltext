@@ -1,9 +1,10 @@
+import { getDailyLog, getWeeklyLogs } from "@caltext/db";
 import { tool } from "ai";
 import { z } from "zod";
-import { getDailyLog, getWeeklyLogs } from "@caltext/db";
 
 export const getDailyLogTool = tool({
-  description: "Get today's meal log with running totals for the user. Shows all meals logged today and current calorie/macro totals.",
+  description:
+    "Get today's meal log with running totals for the user. Shows all meals logged today and current calorie/macro totals.",
   inputSchema: z.object({
     userId: z.string(),
     localDate: z.string().describe("The date in YYYY-MM-DD format in the user's timezone"),
@@ -14,7 +15,8 @@ export const getDailyLogTool = tool({
 });
 
 export const getWeeklyLogTool = tool({
-  description: "Get the past 7 days of meal logs for the user. Useful for weekly summaries and trends.",
+  description:
+    "Get the past 7 days of meal logs for the user. Useful for weekly summaries and trends.",
   inputSchema: z.object({
     userId: z.string(),
     endDate: z.string().describe("The end date in YYYY-MM-DD format"),

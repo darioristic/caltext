@@ -1,10 +1,8 @@
-import {
-  resolveUserId, createPhoneMapping, getUser, getOnboardingState,
-} from "@caltext/db";
-import { detectRegion, decrypt, generateId } from "@caltext/shared";
+import { createPhoneMapping, getOnboardingState, getUser, resolveUserId } from "@caltext/db";
+import { decrypt, detectRegion, generateId } from "@caltext/shared";
 import { start } from "workflow/api";
-import { onboardingWorkflow } from "../workflows/onboarding.js";
 import { handleMessage } from "../workflows/handle-message.js";
+import { onboardingWorkflow } from "../workflows/onboarding.js";
 
 export async function routeMessage(
   encryptedPhone: string,

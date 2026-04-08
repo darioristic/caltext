@@ -1,19 +1,22 @@
-import { sleep } from "workflow";
-import { Chat } from "chat";
-import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
-import {
-  getUser, getDailyLog, getStreak, updateStreak, getWeeklyLogs,
-} from "@caltext/db";
-import {
-  nextLocalTime, msUntil, localDateString, isDayOfWeek, decrypt,
-  MEAL_TIMES, DAILY_SUMMARY_HOUR, WEEKLY_RECAP_HOUR, WEEKLY_RECAP_DAY,
-  STREAK_MILESTONES,
-} from "@caltext/shared";
+import { buildDailySummaryPrompt, buildReminderPrompt, buildWeeklyRecapPrompt } from "@caltext/ai";
+import { getDailyLog, getUser, getWeeklyLogs, updateStreak } from "@caltext/db";
 import type { StreakInfo } from "@caltext/shared";
 import {
-  buildReminderPrompt, buildDailySummaryPrompt, buildWeeklyRecapPrompt,
-} from "@caltext/ai";
+  DAILY_SUMMARY_HOUR,
+  decrypt,
+  isDayOfWeek,
+  localDateString,
+  MEAL_TIMES,
+  msUntil,
+  nextLocalTime,
+  STREAK_MILESTONES,
+  WEEKLY_RECAP_DAY,
+  WEEKLY_RECAP_HOUR,
+} from "@caltext/shared";
+import { generateText } from "ai";
+import { Chat } from "chat";
+import { sleep } from "workflow";
 
 async function sendMsg(userId: string, text: string) {
   "use step";
@@ -55,10 +58,12 @@ async function generateDailySummary(
 
   const updatedStreak = await updateStreak(userId, localDate);
 
-  const mealSummary = log.meals.map(m => {
-    const itemNames = m.items.map(i => i.name).join(" + ");
-    return `- ${itemNames}: ${m.totalCalories} kcal`;
-  }).join("\n");
+  const mealSummary = log.meals
+    .map((m) => {
+      const itemNames = m.items.map((i) => i.name).join(" + ");
+      return `- ${itemNames}: ${m.totalCalories} kcal`;
+    })
+    .join("\n");
 
   const result = await generateText({
     model: openai("gpt-4.1-mini"),
@@ -83,20 +88,23 @@ async function generateWeeklyRecap(userId: string, locale: string): Promise<stri
   const localDate = localDateString(user.timezone);
   const weeklyLogs = await getWeeklyLogs(userId, localDate, user.timezone);
 
-  const dayLines = weeklyLogs.map(({ date, log }) => {
-    const ratio = Math.min(log.calories / user.dailyCalorieTarget, 1.5);
-    const filled = Math.round(ratio * 14);
-    const empty = Math.max(0, 14 - filled);
-    const bar = "█".repeat(Math.min(filled, 14)) + "░".repeat(empty);
-    const onTarget = Math.abs(log.calories - user.dailyCalorieTarget) <= user.dailyCalorieTarget * 0.1;
-    const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
-    return `${dayName}  ${bar} ${log.calories} kcal${onTarget ? " ✓" : ""}`;
-  }).join("\n");
+  const dayLines = weeklyLogs
+    .map(({ date, log }) => {
+      const ratio = Math.min(log.calories / user.dailyCalorieTarget, 1.5);
+      const filled = Math.round(ratio * 14);
+      const empty = Math.max(0, 14 - filled);
+      const bar = "█".repeat(Math.min(filled, 14)) + "░".repeat(empty);
+      const onTarget =
+        Math.abs(log.calories - user.dailyCalorieTarget) <= user.dailyCalorieTarget * 0.1;
+      const dayName = new Date(date).toLocaleDateString("en-US", { weekday: "short" });
+      return `${dayName}  ${bar} ${log.calories} kcal${onTarget ? " ✓" : ""}`;
+    })
+    .join("\n");
 
   const avgCalories = Math.round(weeklyLogs.reduce((s, d) => s + d.log.calories, 0) / 7);
   const avgProtein = Math.round(weeklyLogs.reduce((s, d) => s + d.log.protein, 0) / 7);
-  const daysOnTarget = weeklyLogs.filter(({ log }) =>
-    Math.abs(log.calories - user.dailyCalorieTarget) <= user.dailyCalorieTarget * 0.1
+  const daysOnTarget = weeklyLogs.filter(
+    ({ log }) => Math.abs(log.calories - user.dailyCalorieTarget) <= user.dailyCalorieTarget * 0.1,
   ).length;
 
   const result = await generateText({
@@ -134,13 +142,19 @@ export async function reminderLoop(userId: string) {
       const log = await getDailyLog(userId, localDate);
       const remaining = Math.max(0, user.dailyCalorieTarget - log.calories);
 
-      const alreadyLogged = log.meals.some(m => {
+      const alreadyLogged = log.meals.some((m) => {
         const mealHour = new Date(m.timestamp).getHours();
         return Math.abs(mealHour - meal.hour) < 3;
       });
 
       if (log.mealCount === 0 || !alreadyLogged) {
-        const reminder = await generateReminder(meal.label, meal.emoji, locale, remaining, user.name);
+        const reminder = await generateReminder(
+          meal.label,
+          meal.emoji,
+          locale,
+          remaining,
+          user.name,
+        );
         await sendMsg(userId, reminder);
       }
     }

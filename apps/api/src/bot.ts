@@ -1,6 +1,6 @@
+import { createRedisState } from "@chat-adapter/state-redis";
 import { Chat } from "chat";
 import { createSendblueAdapter } from "chat-adapter-sendblue";
-import { createRedisState } from "@chat-adapter/state-redis";
 
 const bot = new Chat({
   userName: "caltext",

@@ -32,7 +32,12 @@ export const STREAK_MILESTONES: Record<number, string> = {
 };
 
 // Mifflin-St Jeor equation
-export function calculateBMR(sex: "male" | "female", weightKg: number, heightCm: number, age: number): number {
+export function calculateBMR(
+  sex: "male" | "female",
+  weightKg: number,
+  heightCm: number,
+  age: number,
+): number {
   if (sex === "male") {
     return 10 * weightKg + 6.25 * heightCm - 5 * age + 5;
   }

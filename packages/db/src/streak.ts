@@ -1,5 +1,5 @@
-import { getRedis } from "./client.js";
 import type { StreakInfo } from "@caltext/shared";
+import { getRedis } from "./client.js";
 
 const streakKey = (userId: string) => `streak:${userId}`;
 

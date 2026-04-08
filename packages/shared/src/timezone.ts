@@ -3,12 +3,16 @@ export function nextLocalTime(hour: number, minute: number, tz: string): Date {
   // Get current time formatted in the user's timezone
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", second: "2-digit",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
     hour12: false,
   }).formatToParts(now);
 
-  const get = (type: string) => parseInt(parts.find(p => p.type === type)?.value ?? "0", 10);
+  const get = (type: string) => parseInt(parts.find((p) => p.type === type)?.value ?? "0", 10);
   const userYear = get("year");
   const userMonth = get("month");
   const userDay = get("day");
@@ -25,16 +29,20 @@ export function nextLocalTime(hour: number, minute: number, tz: string): Date {
   const targetStr = `${userYear}-${String(userMonth).padStart(2, "0")}-${String(targetDay).padStart(2, "0")}T${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}:00`;
 
   // Use Intl to find the UTC equivalent
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const _formatter = new Intl.DateTimeFormat("en-US", {
     timeZone: tz,
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", second: "2-digit",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
     hour12: false,
   });
 
   // Brute-force approach: search for the UTC time that corresponds to our target local time
   // Start with a rough estimate
-  const rough = new Date(targetStr + "Z");
+  const rough = new Date(`${targetStr}Z`);
   const offset = getTimezoneOffsetMs(tz, rough);
   return new Date(rough.getTime() - offset);
 }
@@ -51,9 +59,12 @@ export function msUntil(target: Date): number {
 
 export function localDateString(tz: string, date?: Date): string {
   const d = date ?? new Date();
-  const parts = new Intl.DateTimeFormat("en-CA", { // en-CA gives YYYY-MM-DD
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    // en-CA gives YYYY-MM-DD
     timeZone: tz,
-    year: "numeric", month: "2-digit", day: "2-digit",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
   }).format(d);
   return parts; // "2026-04-08"
 }
@@ -65,7 +76,7 @@ export function localHour(tz: string, date?: Date): number {
     hour: "2-digit",
     hour12: false,
   }).formatToParts(d);
-  return parseInt(parts.find(p => p.type === "hour")?.value ?? "0", 10);
+  return parseInt(parts.find((p) => p.type === "hour")?.value ?? "0", 10);
 }
 
 export function isDayOfWeek(tz: string, dayName: string, date?: Date): boolean {

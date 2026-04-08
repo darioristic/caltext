@@ -47,7 +47,9 @@ When you learn something about the user (dietary restrictions, allergies, prefer
   }
 
   if (ctx.memories && Object.keys(ctx.memories).length > 0) {
-    prompt += `\n\nWhat I know about them:\n${Object.entries(ctx.memories).map(([k, v]) => `- ${k}: ${v}`).join("\n")}`;
+    prompt += `\n\nWhat I know about them:\n${Object.entries(ctx.memories)
+      .map(([k, v]) => `- ${k}: ${v}`)
+      .join("\n")}`;
   }
 
   if (ctx.todayLog && ctx.todayLog.mealCount > 0) {

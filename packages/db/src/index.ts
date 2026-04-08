@@ -1,8 +1,15 @@
 export { getRedis } from "./client.js";
-export { resolveUserId, createPhoneMapping, getUser, createUser, updateUser, userExists } from "./users.js";
-export { saveMeal, getMealsForDate } from "./meals.js";
-export { updateDailyTotals, getDailyLog, getWeeklyLogs } from "./daily-log.js";
-export { saveMemory, recallAllMemories, recallMemory, deleteMemory } from "./memory.js";
+export { getDailyLog, getWeeklyLogs, updateDailyTotals } from "./daily-log.js";
+export { getMealsForDate, saveMeal } from "./meals.js";
+export { deleteMemory, recallAllMemories, recallMemory, saveMemory } from "./memory.js";
+export { deleteOnboardingState, getOnboardingState, setOnboardingState } from "./onboarding.js";
+export { deleteReminderRunId, getReminderRunId, setReminderRunId } from "./reminders.js";
 export { getStreak, updateStreak } from "./streak.js";
-export { getOnboardingState, setOnboardingState, deleteOnboardingState } from "./onboarding.js";
-export { setReminderRunId, getReminderRunId, deleteReminderRunId } from "./reminders.js";
+export {
+  createPhoneMapping,
+  createUser,
+  getUser,
+  resolveUserId,
+  updateUser,
+  userExists,
+} from "./users.js";

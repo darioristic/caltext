@@ -4,21 +4,14 @@ const ALGORITHM = "AES-CBC";
 
 async function getKey(): Promise<CryptoKey> {
   const raw = hexToBytes(env.ENCRYPTION_KEY);
-  return crypto.subtle.importKey("raw", raw, { name: ALGORITHM }, false, [
-    "encrypt",
-    "decrypt",
-  ]);
+  return crypto.subtle.importKey("raw", raw, { name: ALGORITHM }, false, ["encrypt", "decrypt"]);
 }
 
 async function deriveIv(plaintext: string): Promise<Uint8Array> {
   const raw = hexToBytes(env.ENCRYPTION_KEY);
-  const key = await crypto.subtle.importKey(
-    "raw",
-    raw,
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"],
-  );
+  const key = await crypto.subtle.importKey("raw", raw, { name: "HMAC", hash: "SHA-256" }, false, [
+    "sign",
+  ]);
   const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(plaintext));
   return new Uint8Array(sig).slice(0, 16);
 }

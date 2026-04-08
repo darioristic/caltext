@@ -13,9 +13,7 @@ export function Features() {
       { from: "user", text: t("chat.snapOrText.user1") },
       { from: "bot", text: t("chat.snapOrText.bot1") },
     ],
-    dailySummaries: [
-      { from: "bot", text: t("chat.dailySummaries.bot1") },
-    ],
+    dailySummaries: [{ from: "bot", text: t("chat.dailySummaries.bot1") }],
     smartReminders: [
       { from: "bot", text: t("chat.smartReminders.bot1") },
       { from: "user", text: t("chat.smartReminders.user1") },
@@ -28,16 +26,11 @@ export function Features() {
         <h2 className="text-center font-heading text-3xl font-bold text-primary sm:text-4xl">
           {t("heading")}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-center text-secondary">
-          {t("subtitle")}
-        </p>
+        <p className="mx-auto mt-4 max-w-xl text-center text-secondary">{t("subtitle")}</p>
 
         <div className="mt-14 grid gap-6">
           {FEATURE_KEYS.map((key) => (
-            <div
-              key={key}
-              className="rounded-2xl border border-border bg-bg p-6"
-            >
+            <div key={key} className="rounded-2xl border border-border bg-bg p-6">
               <h3 className="font-heading text-xl font-semibold text-primary">
                 {t(`${key}.title`)}
               </h3>

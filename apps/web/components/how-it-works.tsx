@@ -11,9 +11,7 @@ export function HowItWorks() {
         <h2 className="text-center font-heading text-3xl font-bold text-primary sm:text-4xl">
           {t("heading")}
         </h2>
-        <p className="mx-auto mt-4 max-w-lg text-center text-secondary">
-          {t("subtitle")}
-        </p>
+        <p className="mx-auto mt-4 max-w-lg text-center text-secondary">{t("subtitle")}</p>
 
         <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
           {STEP_KEYS.map((key, i) => (

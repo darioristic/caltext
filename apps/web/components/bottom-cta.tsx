@@ -1,7 +1,7 @@
 "use client";
 
-import { QRCodeSVG } from "qrcode.react";
 import { useTranslations } from "next-intl";
+import { QRCodeSVG } from "qrcode.react";
 import { IMessageButton } from "./imessage-button";
 
 const PHONE_NUMBER = process.env.NEXT_PUBLIC_PHONE_NUMBER ?? "+1XXXXXXXXXX";
@@ -16,16 +16,12 @@ export function BottomCta() {
           <h2 className="font-heading text-3xl font-bold text-primary sm:text-4xl">
             {t("heading")}
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-secondary">
-            {t("subtitle")}
-          </p>
+          <p className="mx-auto mt-4 max-w-md text-secondary">{t("subtitle")}</p>
 
           <div className="mt-10 flex flex-col items-center gap-10 sm:flex-row sm:justify-center sm:gap-16">
             <div className="flex flex-col items-center gap-3">
               <IMessageButton short />
-              <span className="text-[12px] text-muted">
-                {t("buttonHint")}
-              </span>
+              <span className="text-[12px] text-muted">{t("buttonHint")}</span>
             </div>
 
             <div className="hidden h-24 w-px bg-border sm:block" />
@@ -41,9 +37,7 @@ export function BottomCta() {
                   fgColor="#111827"
                 />
               </div>
-              <span className="text-[12px] text-muted">
-                {t("qrLabel")}
-              </span>
+              <span className="text-[12px] text-muted">{t("qrLabel")}</span>
             </div>
           </div>
         </div>

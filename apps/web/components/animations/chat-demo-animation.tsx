@@ -9,7 +9,9 @@ export function isDemoMuted() {
 
 export function toggleDemoMute() {
   muted = !muted;
-  listeners.forEach((listener) => listener(muted));
+  for (const listener of listeners) {
+    listener(muted);
+  }
   return muted;
 }
 

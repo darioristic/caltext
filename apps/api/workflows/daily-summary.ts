@@ -1,9 +1,9 @@
-import { Chat } from "chat";
-import { generateText } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { getUser, getDailyLog, updateStreak } from "@caltext/db";
-import { localDateString, decrypt } from "@caltext/shared";
 import { buildDailySummaryPrompt } from "@caltext/ai";
+import { getDailyLog, getUser, updateStreak } from "@caltext/db";
+import { decrypt, localDateString } from "@caltext/shared";
+import { generateText } from "ai";
+import { Chat } from "chat";
 
 async function generateAndSend(userId: string) {
   "use step";
@@ -16,10 +16,12 @@ async function generateAndSend(userId: string) {
 
   const streak = await updateStreak(userId, localDate);
 
-  const mealSummary = log.meals.map(m => {
-    const itemNames = m.items.map(i => i.name).join(" + ");
-    return `- ${itemNames}: ${m.totalCalories} kcal`;
-  }).join("\n");
+  const mealSummary = log.meals
+    .map((m) => {
+      const itemNames = m.items.map((i) => i.name).join(" + ");
+      return `- ${itemNames}: ${m.totalCalories} kcal`;
+    })
+    .join("\n");
 
   const result = await generateText({
     model: openai("gpt-4.1-mini"),

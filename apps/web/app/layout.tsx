@@ -13,11 +13,7 @@ const lora = Lora({
   display: "swap",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html className={`${inter.variable} ${lora.variable}`}>
       <body>{children}</body>

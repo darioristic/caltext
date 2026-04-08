@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
 import { IMessageButton } from "./imessage-button";
 
-const ALL_AVATARS = Array.from({ length: 7 }, (_, i) => `https://cdn.caltext.ai/web/content/${i + 1}.jpg`);
+const ALL_AVATARS = Array.from(
+  { length: 7 },
+  (_, i) => `https://cdn.caltext.ai/web/content/${i + 1}.jpg`,
+);
 const INITIAL_AVATARS = ALL_AVATARS.slice(4, 7);
 const SWAP_INTERVAL = 4000;
 
@@ -66,9 +69,7 @@ export function Hero() {
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <IMessageButton short edgeIcon className="min-w-64 justify-center px-6" />
-          <span className="text-[13px] text-muted">
-            {t("trustLine")}
-          </span>
+          <span className="text-[13px] text-muted">{t("trustLine")}</span>
         </div>
       </div>
     </section>

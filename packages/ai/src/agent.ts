@@ -1,12 +1,12 @@
-import { ToolLoopAgent, stepCountIs } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { identifyFood } from "./tools/identify-food.js";
-import { lookupNutrition } from "./tools/nutrition.js";
-import { logMeal } from "./tools/log-meal.js";
+import { stepCountIs, ToolLoopAgent } from "ai";
 import { getDailyLogTool, getWeeklyLogTool } from "./tools/get-history.js";
 import { getUserProfile } from "./tools/get-profile.js";
-import { saveMemoryTool } from "./tools/save-memory.js";
+import { identifyFood } from "./tools/identify-food.js";
+import { logMeal } from "./tools/log-meal.js";
+import { lookupNutrition } from "./tools/nutrition.js";
 import { recallMemoryTool } from "./tools/recall-memory.js";
+import { saveMemoryTool } from "./tools/save-memory.js";
 
 export function createCaltextAgent(systemPrompt: string) {
   return new ToolLoopAgent({

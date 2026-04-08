@@ -1,15 +1,9 @@
-import { Chat } from "chat";
-import {
-  getUser, getDailyLog, recallAllMemories, getStreak,
-} from "@caltext/db";
-import {
-  createCaltextAgent, buildSystemPrompt,
-} from "@caltext/ai";
-import {
-  localDateString, getLocaleName, decrypt,
-} from "@caltext/shared";
+import { buildSystemPrompt, createCaltextAgent } from "@caltext/ai";
+import { getDailyLog, getStreak, getUser, recallAllMemories } from "@caltext/db";
 import type { AgentContext } from "@caltext/shared";
+import { decrypt, getLocaleName, localDateString } from "@caltext/shared";
 import type { UserModelMessage } from "ai";
+import { Chat } from "chat";
 
 async function loadContext(userId: string) {
   "use step";

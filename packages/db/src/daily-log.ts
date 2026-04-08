@@ -1,10 +1,18 @@
+import type { DailyLog } from "@caltext/shared";
 import { getRedis } from "./client.js";
 import { getMealsForDate } from "./meals.js";
-import type { DailyLog } from "@caltext/shared";
 
 const dailyKey = (userId: string, localDate: string) => `daily:${userId}:${localDate}`;
 
-export async function updateDailyTotals(userId: string, localDate: string, addCalories: number, addProtein: number, addCarbs: number, addFat: number, addFiber: number): Promise<void> {
+export async function updateDailyTotals(
+  userId: string,
+  localDate: string,
+  addCalories: number,
+  addProtein: number,
+  addCarbs: number,
+  addFat: number,
+  addFiber: number,
+): Promise<void> {
   const redis = getRedis();
   const key = dailyKey(userId, localDate);
   const pipeline = redis.pipeline();
@@ -32,7 +40,11 @@ export async function getDailyLog(userId: string, localDate: string): Promise<Da
   };
 }
 
-export async function getWeeklyLogs(userId: string, endDate: string, tz: string): Promise<{ date: string; log: DailyLog }[]> {
+export async function getWeeklyLogs(
+  userId: string,
+  endDate: string,
+  _tz: string,
+): Promise<{ date: string; log: DailyLog }[]> {
   const results: { date: string; log: DailyLog }[] = [];
   const end = new Date(endDate);
   for (let i = 6; i >= 0; i--) {

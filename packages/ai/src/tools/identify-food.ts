@@ -2,14 +2,21 @@ import { tool } from "ai";
 import { z } from "zod";
 
 export const foodIdentificationSchema = z.object({
-  items: z.array(z.object({
-    name: z.string().describe("Common food name, e.g. 'grilled chicken breast'"),
-    estimatedGrams: z.number().describe("Estimated weight in grams based on visual cues"),
-    preparationMethod: z.string().describe("How it appears prepared: raw, grilled, fried, boiled, etc."),
-    confidence: z.enum(["high", "medium", "low"]),
-    notes: z.string().optional().describe("Anything uncertain, e.g. 'could be diet or regular'"),
-  })),
-  sceneContext: z.string().optional().describe("Visible reference objects: plate size, utensils, hands"),
+  items: z.array(
+    z.object({
+      name: z.string().describe("Common food name, e.g. 'grilled chicken breast'"),
+      estimatedGrams: z.number().describe("Estimated weight in grams based on visual cues"),
+      preparationMethod: z
+        .string()
+        .describe("How it appears prepared: raw, grilled, fried, boiled, etc."),
+      confidence: z.enum(["high", "medium", "low"]),
+      notes: z.string().optional().describe("Anything uncertain, e.g. 'could be diet or regular'"),
+    }),
+  ),
+  sceneContext: z
+    .string()
+    .optional()
+    .describe("Visible reference objects: plate size, utensils, hands"),
 });
 
 export type FoodIdentification = z.infer<typeof foodIdentificationSchema>;
@@ -26,7 +33,8 @@ For each item, estimate the weight in grams. Be conservative -- it's better to s
 Return your analysis as structured JSON.`;
 
 export const identifyFood = tool({
-  description: "Analyze a food photo to identify items and estimate portion sizes in grams. Do NOT estimate calories -- only identify food and weight.",
+  description:
+    "Analyze a food photo to identify items and estimate portion sizes in grams. Do NOT estimate calories -- only identify food and weight.",
   inputSchema: z.object({
     imageUrl: z.string().describe("URL of the food photo to analyze"),
   }),
@@ -38,10 +46,13 @@ export const identifyFood = tool({
       model: openai("gpt-4.1"),
       schema: foodIdentificationSchema,
       messages: [
-        { role: "user", content: [
-          { type: "text", text: FOOD_IDENTIFICATION_PROMPT },
-          { type: "image", image: new URL(imageUrl) },
-        ]},
+        {
+          role: "user",
+          content: [
+            { type: "text", text: FOOD_IDENTIFICATION_PROMPT },
+            { type: "image", image: new URL(imageUrl) },
+          ],
+        },
       ],
     });
 

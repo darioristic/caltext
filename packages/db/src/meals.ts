@@ -1,5 +1,5 @@
-import { getRedis } from "./client.js";
 import type { MealEntry } from "@caltext/shared";
+import { getRedis } from "./client.js";
 
 const mealKey = (id: string) => `meal:${id}`;
 const mealsIndexKey = (userId: string, localDate: string) => `meals:${userId}:${localDate}`;

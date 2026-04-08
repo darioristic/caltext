@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 const FAQ_KEYS = ["1", "2", "3", "4", "5"] as const;
 
@@ -11,12 +11,11 @@ function FaqItem({ q, a }: { q: string; a: string }) {
   return (
     <div className="border-b border-border">
       <button
+        type="button"
         onClick={() => setOpen(!open)}
         className="flex w-full items-center justify-between py-5 text-left"
       >
-        <span className="pr-4 text-[15px] font-medium text-primary">
-          {q}
-        </span>
+        <span className="pr-4 text-[15px] font-medium text-primary">{q}</span>
         <svg
           width="20"
           height="20"
@@ -40,9 +39,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pb-5 text-sm leading-relaxed text-secondary">
-            {a}
-          </p>
+          <p className="pb-5 text-sm leading-relaxed text-secondary">{a}</p>
         </div>
       </div>
     </div>

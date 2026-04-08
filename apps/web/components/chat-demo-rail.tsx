@@ -4,10 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import type { JSX } from "react";
 
-export type ChatDemoScenario =
-  | "snapOrText"
-  | "dailySummaries"
-  | "smartReminders";
+export type ChatDemoScenario = "snapOrText" | "dailySummaries" | "smartReminders";
 
 function CameraIcon({ className }: { className?: string }) {
   return (
@@ -133,16 +130,10 @@ export function ChatDemoRail({
                 isSmall
                   ? "gap-1.5 px-2 py-1 font-sans text-xs"
                   : "gap-2 px-2.5 py-1.5 font-sans text-sm sm:px-3 sm:py-1.5"
-              } ${
-                isActive
-                  ? "bg-black/4 text-primary"
-                  : "text-secondary hover:text-primary"
-              }`}
+              } ${isActive ? "bg-black/4 text-primary" : "text-secondary hover:text-primary"}`}
             >
               <Icon className={isSmall ? "size-3" : "size-4"} />
-              <span className="whitespace-nowrap font-medium">
-                {t(story.labelKey)}
-              </span>
+              <span className="whitespace-nowrap font-medium">{t(story.labelKey)}</span>
             </button>
           );
         })}

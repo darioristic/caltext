@@ -1,5 +1,5 @@
-import { getRedis } from "./client.js";
 import type { UserProfile } from "@caltext/shared";
+import { getRedis } from "./client.js";
 
 const userKey = (userId: string) => `user:${userId}`;
 const phoneIndexKey = (encryptedPhone: string) => `phone:${encryptedPhone}`;
@@ -55,12 +55,15 @@ export async function createUser(
   });
 }
 
-export async function updateUser(userId: string, fields: Partial<Record<string, string>>): Promise<void> {
+export async function updateUser(
+  userId: string,
+  fields: Partial<Record<string, string>>,
+): Promise<void> {
   const redis = getRedis();
   await redis.hset(userKey(userId), fields);
 }
 
 export async function userExists(userId: string): Promise<boolean> {
   const redis = getRedis();
-  return await redis.exists(userKey(userId)) === 1;
+  return (await redis.exists(userKey(userId))) === 1;
 }

@@ -3,10 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  type ChatDemoScenario,
-  ChatIMessageAnimation,
-} from "./animations/chat-demo";
+import { type ChatDemoScenario, ChatIMessageAnimation } from "./animations/chat-demo";
 import { DEMO_STORIES } from "./chat-demo-rail";
 import { IPhoneMock } from "./iphone-mock";
 
@@ -22,8 +19,7 @@ export function ChatDemoWithRail({ className = "" }: { className?: string }) {
   const [startAtEnd, setStartAtEnd] = useState(false);
   const pauseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const scenario: ChatDemoScenario =
-    DEMO_STORIES[scenarioIndex]?.id ?? "smartReminders";
+  const scenario: ChatDemoScenario = DEMO_STORIES[scenarioIndex]?.id ?? "smartReminders";
 
   const label = useMemo(() => {
     const labelKey = DEMO_STORIES[scenarioIndex]?.labelKey ?? "smartReminders.title";

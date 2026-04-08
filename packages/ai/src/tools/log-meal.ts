@@ -1,29 +1,32 @@
-import { tool } from "ai";
-import { z } from "zod";
 import { saveMeal, updateDailyTotals } from "@caltext/db";
 import { localDateString } from "@caltext/shared";
+import { tool } from "ai";
+import { z } from "zod";
 
 export const logMeal = tool({
-  description: "Log a meal entry with nutrition data to the user's daily log. Call this after identifying food and looking up nutrition.",
+  description:
+    "Log a meal entry with nutrition data to the user's daily log. Call this after identifying food and looking up nutrition.",
   inputSchema: z.object({
     userId: z.string(),
     timezone: z.string(),
-    items: z.array(z.object({
-      name: z.string(),
-      estimatedGrams: z.number(),
-      preparationMethod: z.string(),
-      confidence: z.enum(["high", "medium", "low"]),
-      notes: z.string().optional(),
-      nutrition: z.object({
-        fdcId: z.number().optional(),
-        matchedName: z.string(),
-        calories: z.number(),
-        protein: z.number(),
-        carbs: z.number(),
-        fat: z.number(),
-        fiber: z.number(),
+    items: z.array(
+      z.object({
+        name: z.string(),
+        estimatedGrams: z.number(),
+        preparationMethod: z.string(),
+        confidence: z.enum(["high", "medium", "low"]),
+        notes: z.string().optional(),
+        nutrition: z.object({
+          fdcId: z.number().optional(),
+          matchedName: z.string(),
+          calories: z.number(),
+          protein: z.number(),
+          carbs: z.number(),
+          fat: z.number(),
+          fiber: z.number(),
+        }),
       }),
-    })),
+    ),
     photoUrl: z.string().optional(),
     source: z.enum(["photo", "text", "manual"]),
   }),
@@ -52,7 +55,15 @@ export const logMeal = tool({
       localDate,
     });
 
-    await updateDailyTotals(userId, localDate, totalCalories, totalProtein, totalCarbs, totalFat, totalFiber);
+    await updateDailyTotals(
+      userId,
+      localDate,
+      totalCalories,
+      totalProtein,
+      totalCarbs,
+      totalFat,
+      totalFiber,
+    );
 
     return {
       mealId: id,

@@ -23,10 +23,8 @@ type ScenarioData = {
   messages: ChatMessage[];
 };
 
-const SF_FONT =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif";
-const SF_DISPLAY =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
+const SF_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif";
+const SF_DISPLAY = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
 const BRAND_SERIF_FONT = "var(--font-lora), Georgia, serif";
 const LOCK_SCREEN_WALLPAPERS = [
   "https://cdn.caltext.ai/web/screensaver/1.jpg",
@@ -199,13 +197,7 @@ function getReminderPromptText(
   }
 }
 
-function AppIconSquare({
-  size = 38,
-  borderRadius = 9,
-}: {
-  size?: number;
-  borderRadius?: number;
-}) {
+function AppIconSquare({ size = 38, borderRadius = 9 }: { size?: number; borderRadius?: number }) {
   return (
     <div
       style={{
@@ -213,8 +205,7 @@ function AppIconSquare({
         height: size,
         borderRadius,
         background: "#000000",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 22px rgba(0,0,0,0.24)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 22px rgba(0,0,0,0.24)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -246,8 +237,7 @@ function ContactAvatar({ size = 56 }: { size?: number }) {
         borderRadius: "50%",
         background:
           "radial-gradient(circle at 50% 24%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 28%, rgba(0,0,0,0) 52%), #000",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.14), 0 10px 24px rgba(0,0,0,0.28)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.14), 0 10px 24px rgba(0,0,0,0.28)",
       }}
     >
       <span
@@ -345,12 +335,7 @@ function ComposerPlusIcon({ color }: { color: string }) {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <path
-        d="M7.5 3.2V11.8M3.2 7.5H11.8"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M7.5 3.2V11.8M3.2 7.5H11.8" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
@@ -376,12 +361,7 @@ function ComposerMicIcon({ color }: { color: string }) {
         strokeWidth="1.45"
         strokeLinecap="round"
       />
-      <path
-        d="M6 11.85V15M3.6 15H8.4"
-        stroke={color}
-        strokeWidth="1.45"
-        strokeLinecap="round"
-      />
+      <path d="M6 11.85V15M3.6 15H8.4" stroke={color} strokeWidth="1.45" strokeLinecap="round" />
     </svg>
   );
 }
@@ -469,8 +449,7 @@ function LiquidGlass({
         overflow: "hidden",
         borderRadius,
         padding,
-        background:
-          "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025))",
+        background: "linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.025))",
         backdropFilter: "blur(14px) saturate(126%)",
         WebkitBackdropFilter: "blur(14px) saturate(126%)",
         boxShadow:
@@ -507,10 +486,8 @@ function LiquidGlass({
           inset: 0,
           borderRadius: "inherit",
           padding: "0.5px",
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0.08))",
-          WebkitMask:
-            "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0.08))",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
           WebkitMaskComposite: "xor",
           maskComposite: "exclude",
           pointerEvents: "none",
@@ -696,8 +673,7 @@ function IOSCameraView({ flash }: { flash: boolean }) {
           left: 0,
           right: 0,
           height: 140,
-          background:
-            "linear-gradient(to top, rgba(0,0,0,0.7) 60%, transparent)",
+          background: "linear-gradient(to top, rgba(0,0,0,0.7) 60%, transparent)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -860,60 +836,46 @@ function NotificationBanner({
       <motion.div
         aria-hidden="true"
         initial={{ opacity: 0, y: 110, scale: 0.98 }}
-        animate={
-          tapped
-            ? { opacity: 0, y: 44, scale: 0.98 }
-            : { opacity: 0.22, y: 340, scale: 1 }
-        }
+        animate={tapped ? { opacity: 0, y: 44, scale: 0.98 } : { opacity: 0.22, y: 340, scale: 1 }}
         transition={{ type: "spring", damping: 28, stiffness: 210 }}
         className="absolute left-0 right-0"
         style={{
           height: 64,
           borderRadius: 24,
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06))",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06))",
           backdropFilter: "blur(28px)",
           WebkitBackdropFilter: "blur(28px)",
           border: "1px solid rgba(255,255,255,0.12)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.18), 0 20px 40px rgba(0,0,0,0.12)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 20px 40px rgba(0,0,0,0.12)",
         }}
       />
       <motion.div
         aria-hidden="true"
         initial={{ opacity: 0, y: 165, scale: 0.96 }}
-        animate={
-          tapped
-            ? { opacity: 0, y: 72, scale: 0.96 }
-            : { opacity: 0.14, y: 256, scale: 1 }
-        }
+        animate={tapped ? { opacity: 0, y: 72, scale: 0.96 } : { opacity: 0.14, y: 256, scale: 1 }}
         transition={{ type: "spring", damping: 28, stiffness: 210 }}
         className="absolute left-5 right-5"
         style={{
           height: 64,
           borderRadius: 24,
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))",
           backdropFilter: "blur(28px)",
           WebkitBackdropFilter: "blur(28px)",
           border: "1px solid rgba(255,255,255,0.1)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.14), 0 18px 34px rgba(0,0,0,0.1)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.14), 0 18px 34px rgba(0,0,0,0.1)",
         }}
       />
 
       <div
         className="relative flex items-start gap-3"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.1))",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.1))",
           backdropFilter: "blur(40px)",
           WebkitBackdropFilter: "blur(40px)",
           borderRadius: 24,
           padding: "12px 14px",
           border: "1px solid rgba(255, 255, 255, 0.2)",
-          boxShadow:
-            "inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 32px rgba(0,0,0,0.15)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.25), 0 8px 32px rgba(0,0,0,0.15)",
         }}
       >
         <AppIconSquare />
@@ -961,13 +923,7 @@ function NotificationBanner({
   );
 }
 
-function LockScreen({
-  locale,
-  currentDate,
-}: {
-  locale: string;
-  currentDate: Date;
-}) {
+function LockScreen({ locale, currentDate }: { locale: string; currentDate: Date }) {
   const dateStr = useMemo(() => formatDemoDate(locale, currentDate), [currentDate, locale]);
   const timeStr = useMemo(() => formatDemoClock(locale, currentDate), [currentDate, locale]);
   const [wallpaper] = useState<string>(getStableLockScreenWallpaper);
@@ -1032,7 +988,6 @@ function LockScreen({
         >
           {timeStr}
         </div>
-
       </div>
 
       <div
@@ -1049,10 +1004,7 @@ function LockScreen({
           className="flex items-center justify-center"
           style={{ width: 48, height: 48 }}
         >
-          <div
-            className="flex items-center justify-center"
-            style={{ transform: "scale(0.64)" }}
-          >
+          <div className="flex items-center justify-center" style={{ transform: "scale(0.64)" }}>
             <LockFlashlightIcon color="rgba(255,255,255,0.94)" />
           </div>
         </LiquidGlass>
@@ -1062,10 +1014,7 @@ function LockScreen({
           className="flex items-center justify-center"
           style={{ width: 48, height: 48 }}
         >
-          <div
-            className="flex items-center justify-center"
-            style={{ transform: "scale(0.48)" }}
-          >
+          <div className="flex items-center justify-center" style={{ transform: "scale(0.48)" }}>
             <LockCameraIcon color="rgba(255,255,255,0.94)" />
           </div>
         </LiquidGlass>
@@ -1095,11 +1044,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
             lineHeight: 1.22,
             color: bubbleTextColor,
             backgroundColor: isImageOnly ? "transparent" : bubbleBackground,
-            borderRadius: isImageOnly
-              ? 0
-              : isUser
-                ? "20px 20px 6px 20px"
-                : "20px 20px 20px 6px",
+            borderRadius: isImageOnly ? 0 : isUser ? "20px 20px 6px 20px" : "20px 20px 20px 6px",
             fontFamily: SF_FONT,
             whiteSpace: "pre-line",
           }}
@@ -1238,9 +1183,7 @@ function ChatView({
   const scrollRef = useRef<HTMLDivElement>(null);
   const [typedLength, setTypedLength] = useState(0);
   const composerTextRef = useRef(composerText);
-  const visibleBottomInset = showKeyboard
-    ? KEYBOARD_HEIGHT + 52
-    : COMPOSER_INSET;
+  const visibleBottomInset = showKeyboard ? KEYBOARD_HEIGHT + 52 : COMPOSER_INSET;
 
   useEffect(() => {
     if (composerText !== composerTextRef.current) {
@@ -1265,7 +1208,7 @@ function ChatView({
     const el = scrollRef.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
-  }, [messages.length, isTyping]);
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
@@ -1279,11 +1222,9 @@ function ChatView({
     };
     raf = requestAnimationFrame(scroll);
     return () => cancelAnimationFrame(raf);
-  }, [showKeyboard]);
+  }, []);
 
-  const visibleComposerText = composerText
-    ? composerText.slice(0, typedLength)
-    : "";
+  const visibleComposerText = composerText ? composerText.slice(0, typedLength) : "";
   const showSendButton = composerText.length > 0 && typedLength > 0;
   const encryptedLabel = locale === "sv" ? "Krypterad" : "Encrypted";
 
@@ -1327,10 +1268,7 @@ function ChatView({
             </LiquidGlass>
           </button>
 
-          <div
-            className="flex items-center justify-center"
-            style={{ width: 36, minWidth: 36 }}
-          >
+          <div className="flex items-center justify-center" style={{ width: 36, minWidth: 36 }}>
             <LiquidGlass
               borderRadius="50%"
               className="flex items-center justify-center"
@@ -1472,7 +1410,12 @@ function ChatView({
         }}
         transition={
           showKeyboard
-            ? { type: "spring" as const, stiffness: 390, damping: 34, mass: 0.92 }
+            ? {
+                type: "spring" as const,
+                stiffness: 390,
+                damping: 34,
+                mass: 0.92,
+              }
             : { duration: 0 }
         }
         style={{
@@ -1805,8 +1748,7 @@ export function ChatIMessageAnimation({
       const estimateShow = typingStart1 + 2600;
       const kbUp = estimateShow + 1800;
       const typeStart = kbUp + 400;
-      const userSend =
-        typeStart + userMessage.length * CHAR_TYPE_MS + 400;
+      const userSend = typeStart + userMessage.length * CHAR_TYPE_MS + 400;
       const typingStart2 = userSend + 900;
       const replyShow = typingStart2 + 1400;
       const breakdownShow = replyShow + 1200;
@@ -1858,8 +1800,7 @@ export function ChatIMessageAnimation({
       const botShow = chatStart + 300;
       const kbUp = botShow + 1400;
       const typeStart = kbUp + 400;
-      const userSend =
-        typeStart + userMessage.length * CHAR_TYPE_MS + 400;
+      const userSend = typeStart + userMessage.length * CHAR_TYPE_MS + 400;
       const typingStart = userSend + 1000;
       const botReply = typingStart + 2200;
 
@@ -1907,10 +1848,7 @@ export function ChatIMessageAnimation({
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="absolute inset-0"
           >
-            <LockScreen
-              locale={locale}
-              currentDate={activeDate}
-            />
+            <LockScreen locale={locale} currentDate={activeDate} />
             {notificationVisible ? (
               <NotificationBanner
                 title={phoneT("lockTitle")}

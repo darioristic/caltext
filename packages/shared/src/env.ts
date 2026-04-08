@@ -1,5 +1,5 @@
 import { createEnv } from "@t3-oss/env-core";
-import { vercel, upstashRedis } from "@t3-oss/env-core/presets-zod";
+import { upstashRedis, vercel } from "@t3-oss/env-core/presets-zod";
 import { z } from "zod";
 
 export const env = createEnv({

@@ -28,15 +28,7 @@ function InstagramIcon() {
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
-      <rect
-        x="3.5"
-        y="3.5"
-        width="17"
-        height="17"
-        rx="5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.8" />
       <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" />
     </svg>
@@ -77,9 +69,7 @@ export function Footer() {
     <footer className="w-full border-t border-border py-10 sm:py-12">
       <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-6 text-center">
         <div className="space-y-1">
-          <div className="font-heading text-lg font-semibold text-primary">
-            {t("logo")}
-          </div>
+          <div className="font-heading text-lg font-semibold text-primary">{t("logo")}</div>
           <p className="text-[13px] text-secondary">{t("tagline")}</p>
         </div>
 

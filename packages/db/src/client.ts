@@ -1,5 +1,5 @@
-import { Redis } from "@upstash/redis";
 import { env } from "@caltext/shared";
+import { Redis } from "@upstash/redis";
 
 let _redis: Redis | null = null;
 

@@ -10,9 +10,7 @@ export function TrustBar() {
       <div className="mx-auto flex max-w-3xl items-center justify-center gap-3 px-6 text-[13px] text-muted">
         {ITEM_KEYS.map((key, i) => (
           <span key={key} className="flex items-center gap-3">
-            {i > 0 && (
-              <span className="h-1 w-1 rounded-full bg-muted/40" />
-            )}
+            {i > 0 && <span className="h-1 w-1 rounded-full bg-muted/40" />}
             {t(`items.${key}`)}
           </span>
         ))}
