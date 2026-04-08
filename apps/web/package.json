@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
+    "dev": "bun run --bun next dev --turbopack",
+    "build": "bun run --bun next build",
+    "start": "bun run --bun next start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
