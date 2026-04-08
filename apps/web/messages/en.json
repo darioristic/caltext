@@ -1,18 +1,18 @@
 {
   "Metadata": {
-    "title": "Cal Text - Your calorie tracker that lives in your texts",
+    "title": "caltext - Your calorie tracker that lives in your texts",
     "description": "Send a photo or describe your meal. AI handles the rest — calories, macros, streaks, all in iMessage.",
-    "ogTitle": "Cal Text - Your calorie tracker that lives in your texts",
+    "ogTitle": "caltext - Your calorie tracker that lives in your texts",
     "ogDescription": "Send a photo or describe your meal. AI handles the rest — calories, macros, streaks, all in iMessage."
   },
   "Nav": {
-    "logo": "Cal Text",
+    "logo": "caltext",
     "features": "Features",
     "faqs": "FAQs",
     "getStarted": "Get Started"
   },
   "Hero": {
-    "eyebrow": "Meet Cal Text",
+    "eyebrow": "Meet caltext",
     "headline": "Track calories from your\u00a0texts.",
     "subtitle": "Send a photo or describe your meal. AI handles the rest\u00a0\u2014 calories, macros, streaks, all in iMessage.",
     "trustLine": "Free trial \u00b7 No app required",
@@ -63,29 +63,45 @@
       }
     }
   },
+  "HowItWorks": {
+    "heading": "How it works",
+    "subtitle": "Three steps. No downloads. No setup screens.",
+    "step1": {
+      "title": "Text caltext",
+      "description": "Send a message to get started. caltext learns your goals, body stats, and preferences in a quick chat."
+    },
+    "step2": {
+      "title": "Log Your Meals",
+      "description": "Text what you ate or snap a photo. AI identifies the food, looks up nutrition, and logs it instantly."
+    },
+    "step3": {
+      "title": "Stay on Track",
+      "description": "Get daily summaries, weekly recaps, streak tracking, and friendly reminders at meal times."
+    }
+  },
   "Faq": {
     "heading": "FAQs",
-    "q1": "How does Caltext track my calories?",
-    "a1": "Text your meals or snap a photo. Caltext uses AI to identify the food and portions, then looks up accurate nutrition data from the USDA database. It tracks your calories, protein, carbs, fat, and fiber automatically.",
+    "q1": "How does caltext track my calories?",
+    "a1": "Text your meals or snap a photo. caltext uses AI to identify the food and portions, then looks up accurate nutrition data from the USDA database. It tracks your calories, protein, carbs, fat, and fiber automatically.",
     "q2": "What do I need to get started?",
-    "a2": "Just an iPhone with iMessage. No app to download, no account to create. Text Caltext and you're up and running in under 2 minutes.",
+    "a2": "Just an iPhone with iMessage. No app to download, no account to create. Text caltext and you're up and running in under 2 minutes.",
     "q3": "Do I need to weigh my food?",
     "a3": "Not at all. Rough estimates work great — just describe portions naturally like \"a big bowl of pasta\" or \"two slices of pizza.\" Photos work even better since the AI can estimate portion sizes visually.",
     "q4": "How does the free trial work?",
     "a4": "You get full access to all features during the trial period. Track meals, get summaries, set reminders — everything. No credit card required to start.",
     "q5": "What languages are supported?",
-    "a5": "Caltext detects your language from your phone number and responds accordingly. English and Swedish are fully supported, with more languages coming soon."
+    "a5": "caltext detects your language from your phone number and responds accordingly. English and Swedish are fully supported, with more languages coming soon."
   },
   "BottomCta": {
     "heading": "Start tracking today",
-    "subtitle": "Open iMessage and text Caltext. You'll be tracking calories in under two minutes.",
+    "subtitle": "Open iMessage and text caltext. You'll be tracking calories in under two minutes.",
     "buttonHint": "Opens iMessage on your Mac or iPhone",
     "qrLabel": "Scan with your phone"
   },
   "PhoneMockup": {
-    "header": "Cal Text",
+    "header": "caltext",
     "inputPlaceholder": "iMessage",
-    "lockTitle": "Cal Text",
+    "lockTitle": "caltext",
     "lockBody": "Lunch logged. 470 kcal added to your day.",
     "lockBodyLogging": "Got your photo. Let me estimate it.",
     "lockBodySummary": "📊 Here's your daily wrap-up.",
@@ -170,11 +186,11 @@
     }
   },
   "Footer": {
-    "logo": "Cal Text",
+    "logo": "caltext",
     "tagline": "Calorie tracking that lives in your texts.",
     "privacy": "Privacy",
     "terms": "Terms",
-    "copyright": "© {year} Caltext",
+    "copyright": "© {year} caltext",
     "x": "X",
     "instagram": "Instagram",
     "tiktok": "TikTok"

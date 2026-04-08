@@ -1,88 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { BellRing, Camera, ChartColumn } from "lucide-react";
 import { useTranslations } from "next-intl";
-import type { JSX } from "react";
+import type { LucideIcon } from "lucide-react";
 
 export type ChatDemoScenario = "snapOrText" | "dailySummaries" | "smartReminders";
-
-function CameraIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9 4l1.2 2H15a3 3 0 013 3v7a3 3 0 01-3 3H7a3 3 0 01-3-3V9a3 3 0 013-3h2z"
-        stroke="currentColor"
-        strokeWidth="1.8"
-      />
-      <circle cx="12" cy="13" r="3.2" stroke="currentColor" strokeWidth="1.8" />
-    </svg>
-  );
-}
-
-function ChartIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M5 19V10M12 19V5M19 19v-7"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-function BellIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M12 3a4 4 0 00-4 4v2.3c0 .8-.24 1.59-.7 2.24L6 13.5V15h12v-1.5l-1.3-1.96A4 4 0 0116 9.3V7a4 4 0 00-4-4zm-2 15a2 2 0 104 0h-4z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
 
 export const DEMO_STORIES: ReadonlyArray<{
   id: ChatDemoScenario;
   labelKey: "snapOrText.title" | "dailySummaries.title" | "smartReminders.title";
-  Icon: ({ className }: { className?: string }) => JSX.Element;
+  Icon: LucideIcon;
 }> = [
   {
     id: "snapOrText",
     labelKey: "snapOrText.title",
-    Icon: CameraIcon,
+    Icon: Camera,
   },
   {
     id: "smartReminders",
     labelKey: "smartReminders.title",
-    Icon: BellIcon,
+    Icon: BellRing,
   },
   {
     id: "dailySummaries",
     labelKey: "dailySummaries.title",
-    Icon: ChartIcon,
+    Icon: ChartColumn,
   },
 ];
 
@@ -113,7 +56,7 @@ export function ChatDemoRail({
       }}
     >
       <div
-        className={`pointer-events-auto flex max-w-[calc(100vw-1.5rem)] items-center overflow-x-auto rounded-[22px] border border-black/5 bg-[rgba(247,247,247,0.98)] shadow-[0_10px_30px_rgba(17,24,39,0.08)] backdrop-blur-[18px] ${
+        className={`pointer-events-auto flex max-w-[calc(100vw-1.5rem)] items-center overflow-x-auto rounded-[22px] border border-primary/5 bg-[rgba(237,234,230,0.95)] shadow-[0_10px_30px_rgba(44,40,37,0.06)] backdrop-blur-[18px] ${
           isSmall ? "gap-0 p-0.5" : "gap-1 p-1 sm:gap-1 sm:p-1.5"
         }`}
       >

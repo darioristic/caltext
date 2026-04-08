@@ -25,15 +25,9 @@ type ScenarioData = {
 
 const SF_FONT = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif";
 const SF_DISPLAY = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif";
-const BRAND_SERIF_FONT = "var(--font-lora), Georgia, serif";
-const LOCK_SCREEN_WALLPAPERS = [
-  "https://cdn.caltext.ai/web/screensaver/1.jpg",
-  // "https://cdn.caltext.ai/web/screensaver/2.jpg",
-  // "https://cdn.caltext.ai/web/screensaver/3.jpg",
-  // "https://cdn.caltext.ai/web/screensaver/4.jpg",
-  // "https://cdn.caltext.ai/web/screensaver/5.jpg",
-] as const;
-let cachedLockScreenWallpaper: string | null = null;
+const BRAND_SERIF_FONT = "var(--font-jakarta), system-ui, sans-serif";
+const LOCK_SCREEN_GRADIENT =
+  "linear-gradient(165deg, #c4bbb0 0%, #a69e93 35%, #8a7f73 65%, #5e544c 100%)";
 const HIDE_SCROLLBAR_CSS = `
   [data-chat-scroll="true"]::-webkit-scrollbar {
     display: none;
@@ -128,18 +122,6 @@ function useClientNow(): Date | null {
   return now;
 }
 
-function getRandomLockScreenWallpaper(): string {
-  const index = Math.floor(Math.random() * LOCK_SCREEN_WALLPAPERS.length);
-  return LOCK_SCREEN_WALLPAPERS[index] ?? LOCK_SCREEN_WALLPAPERS[0];
-}
-
-function getStableLockScreenWallpaper(): string {
-  if (cachedLockScreenWallpaper === null) {
-    cachedLockScreenWallpaper = getRandomLockScreenWallpaper();
-  }
-
-  return cachedLockScreenWallpaper;
-}
 
 function getMealMoment(date: Date): MealMoment {
   const hour = date.getHours();
@@ -198,31 +180,36 @@ function getReminderPromptText(
 }
 
 function AppIconSquare({ size = 38, borderRadius = 9 }: { size?: number; borderRadius?: number }) {
+  const iconSize = Math.round(size * 0.47);
   return (
     <div
       style={{
         width: size,
         height: size,
         borderRadius,
-        background: "#000000",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 22px rgba(0,0,0,0.24)",
+        background: "linear-gradient(145deg, #f5a623 0%, #e8751a 100%)",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.2), 0 10px 22px rgba(232,117,26,0.3)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         flexShrink: 0,
       }}
     >
-      <span
-        style={{
-          color: "#FFFFFF",
-          fontSize: Math.round(size * 0.4),
-          fontWeight: 700,
-          fontFamily: BRAND_SERIF_FONT,
-          letterSpacing: -0.3,
-        }}
+      <svg
+        width={iconSize}
+        height={iconSize}
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        C
-      </span>
+        <path
+          d="M19.5 10.5C19.5 6 16 2.5 11 2.5C6 2.5 2.5 6 2.5 10.5C2.5 12.8 3.5 14.8 5.2 16.2L4 21L8 18.5C9 18.9 10 19 11 19C12.2 19 13.3 18.8 14.3 18.3"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
     </div>
   );
 }
@@ -926,8 +913,6 @@ function NotificationBanner({
 function LockScreen({ locale, currentDate }: { locale: string; currentDate: Date }) {
   const dateStr = useMemo(() => formatDemoDate(locale, currentDate), [currentDate, locale]);
   const timeStr = useMemo(() => formatDemoClock(locale, currentDate), [currentDate, locale]);
-  const [wallpaper] = useState<string>(getStableLockScreenWallpaper);
-
   return (
     <motion.div
       className="absolute inset-0 flex flex-col items-center"
@@ -938,9 +923,7 @@ function LockScreen({ locale, currentDate }: { locale: string; currentDate: Date
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `url(${wallpaper})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: LOCK_SCREEN_GRADIENT,
           zIndex: 0,
         }}
       />

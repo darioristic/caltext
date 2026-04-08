@@ -13,7 +13,7 @@ export function BottomCta() {
     <section id="get-started" className="py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-6">
         <div className="rounded-3xl border border-border bg-card px-8 py-14 text-center sm:px-16">
-          <h2 className="font-heading text-3xl font-bold text-primary sm:text-4xl">
+          <h2 className="font-heading text-3xl font-extrabold text-primary sm:text-4xl">
             {t("heading")}
           </h2>
           <p className="mx-auto mt-4 max-w-md text-secondary">{t("subtitle")}</p>
@@ -33,8 +33,8 @@ export function BottomCta() {
                   value={`sms:${PHONE_NUMBER}`}
                   size={120}
                   level="M"
-                  bgColor="#ffffff"
-                  fgColor="#111827"
+                  bgColor="#f6f4f1"
+                  fgColor="#2c2825"
                 />
               </div>
               <span className="text-[12px] text-muted">{t("qrLabel")}</span>

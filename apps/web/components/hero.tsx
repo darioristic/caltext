@@ -47,11 +47,11 @@ export function Hero() {
                   alt=""
                   width={28}
                   height={28}
-                  className="rounded-full border border-white/80 object-cover"
+                  className="rounded-full border border-bg/80 object-cover"
                   style={{ width: 28, height: 28 }}
-                  initial={{ opacity: 0, scale: 0.6, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, scale: 0.6, filter: "blur(4px)" }}
+                  initial={{ opacity: 0, scale: 0.6, filter: "blur(4px) sepia(0.15)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px) sepia(0.15)" }}
+                  exit={{ opacity: 0, scale: 0.6, filter: "blur(4px) sepia(0.15)" }}
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                 />
               ))}
@@ -61,10 +61,10 @@ export function Hero() {
             {t("socialProof")}
           </span>
         </div>
-        <h1 className="font-heading text-5xl leading-[0.98] font-semibold tracking-tight text-primary sm:text-6xl md:text-7xl">
+        <h1 className="font-heading text-5xl leading-[0.98] font-bold tracking-tight text-primary sm:text-6xl md:text-7xl">
           {t("headline")}
         </h1>
-        <p className="mx-auto mt-6 max-w-xl text-xl leading-relaxed text-secondary">
+        <p className="mx-auto mt-6 max-w-xl text-xl leading-[1.5] text-secondary">
           {t("subtitle")}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">

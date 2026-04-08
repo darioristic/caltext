@@ -20,7 +20,7 @@ export function IMessageButton({
   return (
     <a
       href={`sms:${PHONE_NUMBER}`}
-      className={`relative inline-flex items-center gap-3 border border-black/70 bg-[linear-gradient(180deg,#2c2c30_0%,#18181b_100%)] text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-10px_24px_rgba(255,255,255,0.04),0_6px_16px_rgba(0,0,0,0.22)] transition-transform duration-150 hover:scale-[1.01] hover:bg-[linear-gradient(180deg,#303035_0%,#1c1c20_100%)] ${compact ? "min-h-10 rounded-[14px] px-3.5 py-1.5" : "min-h-14 rounded-[18px] px-4.5 py-2"} ${className}`}
+      className={`relative inline-flex items-center gap-3 border border-primary/70 bg-[linear-gradient(180deg,#3a3633_0%,#2c2825_100%)] text-center text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18),inset_0_-10px_24px_rgba(255,255,255,0.04),0_6px_16px_rgba(0,0,0,0.22)] transition-transform duration-150 hover:scale-[1.01] hover:bg-[linear-gradient(180deg,#443f3b_0%,#352f2c_100%)] ${compact ? "min-h-10 rounded-[14px] px-3.5 py-1.5" : "min-h-14 rounded-[18px] px-4.5 py-2"} ${className}`}
     >
       {showIcon ? (
         <span
@@ -41,7 +41,7 @@ export function IMessageButton({
         </span>
       ) : null}
       <span
-        className={`flex min-w-0 items-center justify-center font-body font-semibold tracking-[-0.02em] text-white ${showIcon ? (compact ? "pr-0.5 text-[0.84rem]" : "pr-0.5 text-[0.94rem]") : compact ? "px-2.5 text-[0.84rem]" : "px-4 text-[0.94rem]"} ${edgeIcon ? "w-full px-10" : ""}`}
+        className={`flex min-w-0 items-center justify-center font-heading font-semibold tracking-[-0.02em] text-white ${showIcon ? (compact ? "pr-0.5 text-[0.84rem]" : "pr-0.5 text-[0.94rem]") : compact ? "px-2.5 text-[0.84rem]" : "px-4 text-[0.94rem]"} ${edgeIcon ? "w-full px-10" : ""}`}
       >
         {short ? t("shortLabel") : t("label")}
       </span>

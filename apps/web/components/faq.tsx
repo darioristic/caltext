@@ -52,7 +52,7 @@ export function Faq() {
   return (
     <section id="faqs" className="border-t border-border py-20 sm:py-28">
       <div className="mx-auto max-w-2xl px-6">
-        <h2 className="text-center font-heading text-3xl font-bold text-primary sm:text-4xl">
+        <h2 className="text-center font-heading text-3xl font-extrabold text-primary sm:text-4xl">
           {t("heading")}
         </h2>
         <div className="mt-12">
