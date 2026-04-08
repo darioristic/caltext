@@ -1,4 +1,4 @@
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Monoton, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,9 +13,16 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+const monoton = Monoton({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-logo-face",
+  display: "swap",
+});
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={`${inter.variable} ${plusJakartaSans.variable}`}>
+    <html className={`${inter.variable} ${plusJakartaSans.variable} ${monoton.variable}`}>
       <body>{children}</body>
     </html>
   );

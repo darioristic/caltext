@@ -180,7 +180,6 @@ function getReminderPromptText(
 }
 
 function AppIconSquare({ size = 38, borderRadius = 9 }: { size?: number; borderRadius?: number }) {
-  const iconSize = Math.round(size * 0.47);
   return (
     <div
       style={{
@@ -193,23 +192,14 @@ function AppIconSquare({ size = 38, borderRadius = 9 }: { size?: number; borderR
         alignItems: "center",
         justifyContent: "center",
         flexShrink: 0,
+        fontFamily: "var(--font-logo-face), serif",
+        fontSize: Math.round(size * 0.55),
+        fontWeight: 400,
+        color: "#FFFFFF",
+        letterSpacing: -0.3,
       }}
     >
-      <svg
-        width={iconSize}
-        height={iconSize}
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M19.5 10.5C19.5 6 16 2.5 11 2.5C6 2.5 2.5 6 2.5 10.5C2.5 12.8 3.5 14.8 5.2 16.2L4 21L8 18.5C9 18.9 10 19 11 19C12.2 19 13.3 18.8 14.3 18.3"
-          stroke="white"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
+      C
     </div>
   );
 }
