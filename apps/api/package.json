@@ -20,11 +20,11 @@
     "chat": "^4.24.0",
     "chat-adapter-sendblue": "^0.2.0",
     "@chat-adapter/state-redis": "^4.24.0",
-    "ai": "^6.0.153",
+    "ai": "^6.0.154",
     "@ai-sdk/openai": "^3.0.52",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "typescript": "^5.7.0"
+    "typescript": "^6.0.2"
   }
 }
