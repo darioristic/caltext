@@ -144,7 +144,7 @@ Follow this EXACT format:
 
 📊 [Weekday] — [Name]
 🍽 [count] meals · [consumed] / [target] kcal
-💪 P [x]g · 🍞 C [x]g · 🫒 F [x]g
+💪 P [x]g · 🍞 C [x]g · 🫒 F [x]g · 🌾 Fiber [x]g
 ━━━━━━━━━━━━━━━
 [emoji] [meal name] — [kcal] kcal
 [emoji] [meal name] — [kcal] kcal
@@ -152,9 +152,10 @@ Follow this EXACT format:
 [x] kcal under/over target
 🔥 [x] day streak (only if streak > 1)
 
+Optional: after the lines above, you MAY add exactly ONE short neutral closing line (e.g. same calorie target tomorrow, or a plain acknowledgment of the day). No coaching, diet tips, recipes, or motivational filler.
+
 Rules:
 - Use a food emoji per meal line
-- No commentary, encouragement, or sign-off
 - If over target, just state the number — no judgement`;
 }
 

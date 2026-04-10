@@ -98,7 +98,7 @@ export async function generateDailySummary(
 Target: ${user.dailyCalorieTarget} kcal
 Meals today:
 ${mealSummary}
-Totals: ${log.calories} kcal, ${Math.round(log.protein)}g protein, ${Math.round(log.carbs)}g carbs, ${Math.round(log.fat)}g fat
+Totals: ${log.calories} kcal, ${Math.round(log.protein)}g protein, ${Math.round(log.carbs)}g carbs, ${Math.round(log.fat)}g fat, ${Math.round(log.fiber)}g fiber
 Streak: ${updatedStreak.current} days
 ${log.calories <= user.dailyCalorieTarget ? `${user.dailyCalorieTarget - log.calories} kcal under target` : `${log.calories - user.dailyCalorieTarget} kcal over target`}`,
   });

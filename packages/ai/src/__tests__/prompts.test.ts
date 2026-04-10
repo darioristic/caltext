@@ -166,6 +166,13 @@ describe("buildDailySummaryPrompt", () => {
     expect(buildDailySummaryPrompt("en")).toContain("English");
     expect(buildDailySummaryPrompt("sv")).toContain("Swedish");
   });
+
+  test("includes fiber and optional closing line rules", () => {
+    const p = buildDailySummaryPrompt("en");
+    expect(p).toContain("Fiber");
+    expect(p.toLowerCase()).toContain("optional");
+    expect(p.toLowerCase()).toContain("coaching");
+  });
 });
 
 describe("buildReminderPrompt", () => {
