@@ -21,7 +21,7 @@
   "IMessageButton": {
     "label": "Kom igång i Meddelanden",
     "shortLabel": "Kom igång",
-    "smsBody": "Hej!"
+    "smsBody": "Hej! Jag vill komma igång med caltext."
   },
   "Features": {
     "heading": "Allt händer i dina sms",

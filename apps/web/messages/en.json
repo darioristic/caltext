@@ -21,7 +21,7 @@
   "IMessageButton": {
     "label": "Get Started in Messages",
     "shortLabel": "Get Started",
-    "smsBody": "Hey!"
+    "smsBody": "Hi! I'd like to get started with caltext."
   },
   "Features": {
     "heading": "Everything happens in your texts",
