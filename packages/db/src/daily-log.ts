@@ -4,7 +4,6 @@ import { getRedis } from "./client";
 import { getMealsForDate } from "./meals";
 
 const dailyKey = (userId: string, localDate: string) => `daily:${userId}:${localDate}`;
-const TTL_90_DAYS = 60 * 60 * 24 * 90;
 
 export async function updateDailyTotals(
   userId: string,
@@ -24,7 +23,6 @@ export async function updateDailyTotals(
   pipeline.hincrbyfloat(key, "fat", addFat);
   pipeline.hincrbyfloat(key, "fiber", addFiber);
   pipeline.hincrby(key, "mealCount", 1);
-  pipeline.expire(key, TTL_90_DAYS);
   await pipeline.exec();
 }
 
@@ -46,7 +44,6 @@ export async function subtractDailyTotals(
   pipeline.hincrbyfloat(key, "fat", -fat);
   pipeline.hincrbyfloat(key, "fiber", -fiber);
   pipeline.hincrby(key, "mealCount", -1);
-  pipeline.expire(key, TTL_90_DAYS);
   await pipeline.exec();
 }
 

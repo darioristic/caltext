@@ -28,7 +28,8 @@ export async function handleIncoming(
     phone: phone.slice(-4),
   });
 
-  const slot = await acquireSlot(phone, messageId);
+  const encryptedPhone = await cachedEncrypt(phone);
+  const slot = await acquireSlot(encryptedPhone, messageId);
 
   if (slot.status !== "acquired") {
     log.set({ skipped: slot.status });
@@ -40,10 +41,7 @@ export async function handleIncoming(
     log.set({ input: { text: text.slice(0, 80), hasImage: !!rawImageUrl } });
     sendTyping(phone);
 
-    const [imageUrl, encryptedPhone] = await Promise.all([
-      rawImageUrl ? normalizeImageUrl(rawImageUrl, log) : Promise.resolve(undefined),
-      cachedEncrypt(phone),
-    ]);
+    const imageUrl = rawImageUrl ? await normalizeImageUrl(rawImageUrl, log) : undefined;
 
     const replies = await routeMessage(log, encryptedPhone, phone, text, imageUrl);
     for (const reply of replies) {

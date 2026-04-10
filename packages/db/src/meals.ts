@@ -1,9 +1,9 @@
 import type { MealEntry } from "@caltext/shared";
+import { decrypt, encryptContent } from "@caltext/shared";
 import { getRedis } from "./client";
 
 const mealKey = (id: string) => `meal:${id}`;
 const mealsIndexKey = (userId: string, localDate: string) => `meals:${userId}:${localDate}`;
-const TTL_90_DAYS = 60 * 60 * 24 * 90;
 
 function safeParseArray(val: unknown): unknown[] {
   if (Array.isArray(val)) return val;
@@ -13,18 +13,24 @@ function safeParseArray(val: unknown): unknown[] {
 
 export async function saveMeal(meal: MealEntry): Promise<void> {
   const redis = getRedis();
+  const [name, items, photoUrl, source] = await Promise.all([
+    encryptContent(meal.name ?? ""),
+    encryptContent(JSON.stringify(meal.items)),
+    encryptContent(meal.photoUrl ?? ""),
+    encryptContent(meal.source),
+  ]);
   const pipeline = redis.pipeline();
   pipeline.hset(mealKey(meal.id), {
     userId: meal.userId,
-    name: meal.name ?? "",
-    items: JSON.stringify(meal.items),
+    name,
+    items,
     totalCalories: String(meal.totalCalories),
     totalProtein: String(meal.totalProtein),
     totalCarbs: String(meal.totalCarbs),
     totalFat: String(meal.totalFat),
     totalFiber: String(meal.totalFiber),
-    photoUrl: meal.photoUrl ?? "",
-    source: meal.source,
+    photoUrl,
+    source,
     timestamp: meal.timestamp,
     localDate: meal.localDate,
   });
@@ -32,29 +38,40 @@ export async function saveMeal(meal: MealEntry): Promise<void> {
     score: new Date(meal.timestamp).getTime(),
     member: meal.id,
   });
-  pipeline.expire(mealKey(meal.id), TTL_90_DAYS);
-  pipeline.expire(mealsIndexKey(meal.userId, meal.localDate), TTL_90_DAYS);
   await pipeline.exec();
 }
 
-function parseMeal(
+async function parseMeal(
   id: string,
   data: Record<string, unknown>,
   fallbackUserId?: string,
   fallbackDate?: string,
-): MealEntry {
+): Promise<MealEntry> {
+  const nameRaw = data.name ? String(data.name) : "";
+  const nameDec = nameRaw ? await decrypt(nameRaw) : "";
+  const name = nameDec ? nameDec : undefined;
+
+  const itemsRaw = await decrypt(String(data.items ?? "[]"));
+  const items = safeParseArray(itemsRaw) as MealEntry["items"];
+
+  const photoRaw = data.photoUrl ? String(data.photoUrl) : "";
+  const photoDec = photoRaw ? await decrypt(photoRaw) : "";
+  const photoUrl = photoDec ? photoDec : undefined;
+
+  const sourceDec = await decrypt(String(data.source ?? "text"));
+
   return {
     id,
     userId: String(data.userId ?? fallbackUserId ?? ""),
-    name: data.name ? String(data.name) : undefined,
-    items: safeParseArray(data.items) as MealEntry["items"],
+    name,
+    items,
     totalCalories: Number(data.totalCalories ?? 0),
     totalProtein: Number(data.totalProtein ?? 0),
     totalCarbs: Number(data.totalCarbs ?? 0),
     totalFat: Number(data.totalFat ?? 0),
     totalFiber: Number(data.totalFiber ?? 0),
-    photoUrl: data.photoUrl ? String(data.photoUrl) : undefined,
-    source: String(data.source ?? "text") as MealEntry["source"],
+    photoUrl,
+    source: String(sourceDec || "text") as MealEntry["source"],
     timestamp: String(data.timestamp ?? new Date().toISOString()),
     localDate: String(data.localDate ?? fallbackDate ?? ""),
   };
@@ -103,7 +120,7 @@ export async function getMealsForDate(userId: string, localDate: string): Promis
   for (let i = 0; i < mealIds.length; i++) {
     const data = results[i];
     if (!data || Object.keys(data).length === 0) continue;
-    meals.push(parseMeal(mealIds[i]!, data as Record<string, unknown>, userId, localDate));
+    meals.push(await parseMeal(mealIds[i]!, data as Record<string, unknown>, userId, localDate));
   }
   return meals;
 }

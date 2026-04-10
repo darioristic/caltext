@@ -8,12 +8,13 @@ const DEDUP_TTL = 300;
  * Returns "duplicate" | "locked" | "acquired".
  * On "acquired", caller MUST call the returned `release` function when done.
  */
+/** @param encryptedPhone — deterministic ciphertext from `encrypt(phone)`, never raw E.164 */
 export async function acquireSlot(
-  phone: string,
+  encryptedPhone: string,
   messageId?: string,
 ): Promise<{ status: "duplicate" | "locked" | "acquired"; release: () => Promise<void> }> {
   const redis = getRedis();
-  const lockKey = `lock:${phone}`;
+  const lockKey = `lock:${encryptedPhone}`;
   const dedupKey = messageId ? `dedup:${messageId}` : null;
 
   const pipeline = redis.pipeline();

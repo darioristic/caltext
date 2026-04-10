@@ -9,7 +9,7 @@ import {
   getWeightHistory,
   recallAllMemories,
 } from "@caltext/db";
-import { localDateString } from "@caltext/shared";
+import { encryptContent, localDateString } from "@caltext/shared";
 import { tool } from "ai";
 import { format, parseISO, subDays } from "date-fns";
 import { z } from "zod";
@@ -62,7 +62,8 @@ export const exportDataTool = tool({
     };
 
     const redis = getRedis();
-    await redis.set(`export:${userId}`, JSON.stringify(exportData), { ex: 86400 });
+    const blob = await encryptContent(JSON.stringify(exportData));
+    await redis.set(`export:${userId}`, blob, { ex: 86400 });
 
     const mealDays = Object.keys(dailyLogs).length;
     const totalMeals = Object.values(dailyLogs).reduce(

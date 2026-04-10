@@ -24,6 +24,11 @@ mock.module("../client", () => ({
 
 mock.module("@caltext/shared", () => ({
   env: {},
+  encryptContent: async (s: string) => `enc:${s}`,
+  decrypt: async (s: string) => {
+    if (!s.startsWith("enc:")) throw new Error("bad ciphertext");
+    return s.slice(4);
+  },
 }));
 
 const { logWeight, getWeightHistory, deleteAllWeightData } = await import("../weight");

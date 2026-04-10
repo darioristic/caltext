@@ -6,7 +6,7 @@ mock.module("../env", () => ({
   },
 }));
 
-const { encrypt, decrypt } = await import("../crypto");
+const { encrypt, decrypt, encryptContent } = await import("../crypto");
 
 describe("encrypt / decrypt", () => {
   test("roundtrip returns original plaintext", async () => {
@@ -32,5 +32,19 @@ describe("encrypt / decrypt", () => {
   test("output is base64url (no +, /, or = characters)", async () => {
     const encrypted = await encrypt("+14155551234");
     expect(encrypted).not.toMatch(/[+/=]/);
+  });
+
+  test("encryptContent roundtrip", async () => {
+    const text = '{"role":"user","content":"hello"}';
+    const enc = await encryptContent(text);
+    const dec = await decrypt(enc);
+    expect(dec).toBe(text);
+  });
+
+  test("encryptContent is not deterministic", async () => {
+    const text = "same";
+    const a = await encryptContent(text);
+    const b = await encryptContent(text);
+    expect(a).not.toBe(b);
   });
 });

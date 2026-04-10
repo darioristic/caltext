@@ -1,4 +1,5 @@
 import type { OnboardingState } from "@caltext/shared";
+import { decrypt, encryptContent } from "@caltext/shared";
 import { getRedis } from "./client";
 
 const onboardingKey = (userId: string) => `onboarding:${userId}`;
@@ -10,7 +11,7 @@ export async function getOnboardingState(userId: string): Promise<OnboardingStat
   if (!data || Object.keys(data).length === 0) return null;
   const d = data as Record<string, unknown>;
   const result: OnboardingState = {};
-  if (d.name) result.name = String(d.name);
+  if (d.name) result.name = await decrypt(String(d.name));
   if (String(d.timezoneConfirmed) === "true") result.timezoneConfirmed = true;
   if (d.timezone) result.timezone = String(d.timezone);
   if (d.sex) result.sex = String(d.sex) as OnboardingState["sex"];
@@ -21,7 +22,7 @@ export async function getOnboardingState(userId: string): Promise<OnboardingStat
   if (d.activity) result.activity = String(d.activity) as OnboardingState["activity"];
   if (String(d.consented) === "true") result.consented = true;
   if (d.detectedLocale) result.detectedLocale = String(d.detectedLocale);
-  if (d.lastBotReply) result.lastBotReply = String(d.lastBotReply);
+  if (d.lastBotReply) result.lastBotReply = await decrypt(String(d.lastBotReply));
   return result;
 }
 
@@ -32,7 +33,12 @@ export async function setOnboardingState(
   const redis = getRedis();
   const flat: Record<string, string> = {};
   for (const [k, v] of Object.entries(state)) {
-    if (v !== undefined) flat[k] = String(v);
+    if (v === undefined) continue;
+    if (k === "name" || k === "lastBotReply") {
+      flat[k] = await encryptContent(String(v));
+    } else {
+      flat[k] = String(v);
+    }
   }
   const key = onboardingKey(userId);
   const pipeline = redis.pipeline();

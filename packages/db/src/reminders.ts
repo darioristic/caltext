@@ -1,3 +1,4 @@
+import { decrypt, encryptContent } from "@caltext/shared";
 import { getRedis } from "./client";
 
 const reminderKey = (userId: string) => `reminder:${userId}`;
@@ -29,7 +30,8 @@ export async function setCustomReminderTimes(
   times: CustomReminderTime[],
 ): Promise<void> {
   const redis = getRedis();
-  await redis.set(reminderTimesKey(userId), JSON.stringify(times));
+  const enc = await encryptContent(JSON.stringify(times));
+  await redis.set(reminderTimesKey(userId), enc);
 }
 
 export async function getCustomReminderTimes(userId: string): Promise<CustomReminderTime[] | null> {
@@ -37,8 +39,9 @@ export async function getCustomReminderTimes(userId: string): Promise<CustomRemi
   const raw = await redis.get(reminderTimesKey(userId));
   if (!raw) return null;
   if (Array.isArray(raw)) return raw as CustomReminderTime[];
-  if (typeof raw === "string") return JSON.parse(raw) as CustomReminderTime[];
-  return null;
+  if (typeof raw !== "string") return null;
+  const decrypted = await decrypt(raw);
+  return JSON.parse(decrypted) as CustomReminderTime[];
 }
 
 export async function deleteCustomReminderTimes(userId: string): Promise<void> {

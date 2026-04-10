@@ -2,14 +2,12 @@ import type { WaterLog } from "@caltext/shared";
 import { getRedis } from "./client";
 
 const waterKey = (userId: string, localDate: string) => `water:${userId}:${localDate}`;
-const TTL_90_DAYS = 60 * 60 * 24 * 90;
 
 export async function logWater(userId: string, localDate: string, ml: number): Promise<void> {
   const redis = getRedis();
   const key = waterKey(userId, localDate);
   const pipeline = redis.pipeline();
   pipeline.hincrbyfloat(key, "totalMl", ml);
-  pipeline.expire(key, TTL_90_DAYS);
   await pipeline.exec();
 }
 
