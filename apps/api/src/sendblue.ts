@@ -37,11 +37,18 @@ export function parseInbound(headers: Headers, body: unknown): InboundMessage | 
 // ── Outbound API calls ─────────────────────────────────
 
 export async function sendMessage(phone: string, text: string): Promise<void> {
-  await client.messages.send({
-    number: phone,
-    from_number: env.SENDBLUE_FROM_NUMBER,
-    content: text,
-  });
+  console.log("[sendblue] sending message", { to: phone.slice(-4), length: text.length });
+  try {
+    await client.messages.send({
+      number: phone,
+      from_number: env.SENDBLUE_FROM_NUMBER,
+      content: text,
+    });
+    console.log("[sendblue] message sent");
+  } catch (err) {
+    console.error("[sendblue] send failed", err);
+    throw err;
+  }
 }
 
 export async function sendTyping(phone: string): Promise<void> {
