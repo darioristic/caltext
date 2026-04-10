@@ -8,7 +8,7 @@ import {
   updateStreak,
 } from "@caltext/db";
 import type { StreakInfo, UserProfile } from "@caltext/shared";
-import { decrypt, localDateString } from "@caltext/shared";
+import { decrypt, localDateString, sendMessage } from "@caltext/shared";
 import { generateText } from "ai";
 
 export async function loadUser(userId: string): Promise<UserProfile | null> {
@@ -32,23 +32,7 @@ export async function sendMsg(userId: string, text: string) {
   const user = await getUser(userId);
   if (!user) return;
   const rawPhone = await decrypt(user.phone);
-  const res = await fetch("https://api.sendblue.com/api/send-message", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "sb-api-key-id": process.env.SENDBLUE_API_KEY!,
-      "sb-api-secret-key": process.env.SENDBLUE_API_SECRET!,
-    },
-    body: JSON.stringify({
-      number: rawPhone,
-      from_number: process.env.SENDBLUE_FROM_NUMBER!,
-      content: text,
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Sendblue send-message ${res.status}: ${body}`);
-  }
+  await sendMessage(rawPhone, text);
 }
 
 export async function generateReminder(

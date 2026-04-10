@@ -1,8 +1,8 @@
 import { createPhoneMapping, getUser, resolveUserId } from "@caltext/db";
 import { detectRegion, generateId } from "@caltext/shared";
 import type { RequestLogger } from "evlog";
-import { handleMessage } from "./handlers/message";
-import { handleOnboarding } from "./handlers/onboarding";
+import { handleMessage } from "@/handlers/message";
+import { handleOnboarding } from "@/handlers/onboarding";
 
 export async function routeMessage(
   log: RequestLogger,

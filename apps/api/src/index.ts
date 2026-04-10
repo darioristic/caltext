@@ -1,8 +1,8 @@
 import { initLogger } from "evlog";
 import { type EvlogVariables, evlog } from "evlog/hono";
 import { Hono } from "hono";
-import { handleIncoming } from "./handler";
-import { markRead, parseInbound } from "./sendblue";
+import { handleIncoming } from "@/handler";
+import { markRead, parseInbound } from "@/sendblue";
 
 initLogger({ env: { service: "caltext" } });
 

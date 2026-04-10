@@ -1,9 +1,9 @@
 import { encrypt } from "@caltext/shared";
 import { createLogger, type RequestLogger } from "evlog";
-import { normalizeImageUrl } from "./image";
-import { acquireSlot } from "./redis-utils";
-import { routeMessage } from "./router";
-import { sendMessage, sendTyping } from "./sendblue";
+import { normalizeImageUrl } from "@/image";
+import { acquireSlot } from "@/redis-utils";
+import { routeMessage } from "@/router";
+import { sendMessage, sendTyping } from "@/sendblue";
 
 const MAX_CACHE_SIZE = 500;
 const encryptCache = new Map<string, string>();
