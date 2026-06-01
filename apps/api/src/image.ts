@@ -1,11 +1,34 @@
+import { createRequire } from "node:module";
 import type { RequestLogger } from "evlog";
-import convert from "heic-convert";
 import sharp from "sharp";
 
 const MAX_DIMENSION = 1024;
 
+// sharp's prebuilt binary advertises HEIF input but cannot decode the HEVC
+// compression iPhones use ("Support for this compression format has not been
+// built in"), so HEIC frames go through heic-convert (a wasm HEVC decoder).
+// That package loads its wasm relative to __dirname, which breaks when bundled
+// into the ESM output — so load it lazily as CJS via a specifier the bundler
+// can't statically inline, keeping it an external runtime require.
+const nodeRequire = createRequire(import.meta.url);
+type HeicConvert = (opts: {
+  buffer: Buffer;
+  format: "JPEG";
+  quality: number;
+}) => Promise<ArrayBuffer>;
+let heicConvert: HeicConvert | null = null;
+
+function loadHeicConvert(): HeicConvert {
+  if (!heicConvert) {
+    // biome-ignore lint/suspicious/noExplicitAny: dynamic CJS interop
+    const mod = nodeRequire(["heic", "convert"].join("-")) as any;
+    heicConvert = (mod.default ?? mod) as HeicConvert;
+  }
+  return heicConvert;
+}
+
 async function heicToJpeg(buffer: Buffer): Promise<Buffer> {
-  const output = await convert({ buffer, format: "JPEG", quality: 0.9 });
+  const output = await loadHeicConvert()({ buffer, format: "JPEG", quality: 0.9 });
   return Buffer.from(output);
 }
 
@@ -31,22 +54,20 @@ export async function normalizeImageUrl(url: string, log?: RequestLogger): Promi
 
   const buffer = Buffer.from(await res.arrayBuffer());
   const contentType = res.headers.get("content-type") ?? "";
-  const isHeic = contentType.includes("heic") || contentType.includes("heif");
 
-  let jpeg: Buffer;
+  // metadata() reads the header without decoding, so it identifies HEIC even
+  // though sharp can't decode its pixels.
+  const meta = await sharp(buffer)
+    .metadata()
+    .catch(() => null);
+  const isHeic =
+    meta?.format === "heif" || contentType.includes("heic") || contentType.includes("heif");
 
-  if (isHeic) {
-    log?.set({ image: { sourceFormat: "heif", converted: true } });
-    const raw = await heicToJpeg(buffer);
-    jpeg = await resizeAndEncode(raw);
-  } else {
-    const meta = await sharp(buffer)
-      .metadata()
-      .catch(() => null);
-    log?.set({ image: { sourceFormat: meta?.format ?? "unknown", converted: true } });
-    jpeg = await resizeAndEncode(buffer);
-  }
+  log?.set({
+    image: { sourceFormat: meta?.format ?? (isHeic ? "heif" : "unknown"), converted: true },
+  });
 
-  const base64 = jpeg.toString("base64");
-  return `data:image/jpeg;base64,${base64}`;
+  const source = isHeic ? await heicToJpeg(buffer) : buffer;
+  const jpeg = await resizeAndEncode(source);
+  return `data:image/jpeg;base64,${jpeg.toString("base64")}`;
 }

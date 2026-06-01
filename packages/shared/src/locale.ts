@@ -10,6 +10,8 @@ const COUNTRY_LOCALE: Record<string, string> = {
   NZ: "en",
   IE: "en",
   SE: "sv",
+  RS: "sr",
+  ME: "sr",
   NO: "nb",
   DK: "da",
   FI: "fi",
@@ -48,6 +50,7 @@ const COUNTRY_LOCALE: Record<string, string> = {
 export const LOCALE_NAMES: Record<string, string> = {
   en: "English",
   sv: "Swedish",
+  sr: "Serbian",
   nb: "Norwegian",
   da: "Danish",
   fi: "Finnish",

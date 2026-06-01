@@ -1,5 +1,5 @@
 import { createEnv } from "@t3-oss/env-core";
-import { upstashRedis, vercel } from "@t3-oss/env-core/presets-zod";
+import { vercel } from "@t3-oss/env-core/presets-zod";
 import { z } from "zod";
 
 export const env = createEnv({
@@ -12,7 +12,7 @@ export const env = createEnv({
     OPENAI_API_KEY: z.string().min(1),
     ENCRYPTION_KEY: z.string().length(64),
   },
-  extends: [vercel(), upstashRedis()],
+  extends: [vercel()],
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
 });
