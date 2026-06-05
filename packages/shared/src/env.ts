@@ -16,6 +16,5 @@ export const env = createEnv({
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
   // Don't hard-fail importing this module in tests/CI where secrets are absent.
-  skipValidation:
-    process.env.NODE_ENV === "test" || process.env.SKIP_ENV_VALIDATION === "true",
+  skipValidation: process.env.NODE_ENV === "test" || process.env.SKIP_ENV_VALIDATION === "true",
 });
