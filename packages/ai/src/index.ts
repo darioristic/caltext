@@ -10,6 +10,8 @@ export {
   buildSystemPrompt,
   buildWeeklyRecapPrompt,
 } from "./prompts";
+export { getActivityTool, logActivityTool } from "./tools/activity";
+export { lookupBarcodeProductTool } from "./tools/barcode";
 export { deleteAccountTool } from "./tools/delete-account";
 export { deleteMealTool } from "./tools/delete-meal";
 export { exportDataTool } from "./tools/export-data";

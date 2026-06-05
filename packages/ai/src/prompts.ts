@@ -55,7 +55,8 @@ Call getDailyLog, then format as:
 Rules: Totals first, then meal list. Each meal: emoji + name + kcal.
 
 When the user sends a photo:
-- Call identifyFood (no arguments needed -- the image is attached automatically). It returns nutrition estimates for each item already -- do NOT call lookupNutrition afterward.
+- If the photo is a product BARCODE (striped bars with a digit string under them), read the digits and call lookupBarcodeProduct with that barcode — it returns accurate nutrition. Then use the serving size (or ask the portion), show the FOOD IDENTIFICATION format, and log on confirm. If it's not found, fall back to the label or estimate.
+- Otherwise call identifyFood (no arguments needed -- the image is attached automatically). It returns nutrition estimates for each item already -- do NOT call lookupNutrition afterward.
 - If identifyFood returns a "nutritionLabel" (packaged product), use the label values directly.
 - Use the FOOD IDENTIFICATION format above.
 - If they correct something ("actually that was a small portion"), call lookupNutrition for the corrected item.
@@ -85,6 +86,10 @@ When the user mentions drinking water:
 When the user mentions their weight or weighing themselves:
 - Use logWeight to record it
 - Show the change from their last entry and recent trend
+
+When the user mentions a workout, exercise, training, a run/walk, sport, or steps:
+- Use logActivity with the activity type and duration in minutes — it estimates calories burned from their weight. If they state an explicit kcal number (e.g. from a watch), pass it as caloriesBurned.
+- Report calories burned and the adjusted remaining budget (target − eaten + burned). Frame the burned calories as extra room, never as a requirement to eat more.
 
 When the user asks to save a favorite or wants quick logging:
 - Use saveFavorite to save a meal they want to re-log easily
@@ -138,6 +143,10 @@ COACHING — this is what makes you a coach, not just a logger:
 
   if (ctx.todayWater && ctx.todayWater.totalMl > 0) {
     prompt += `\nWater today: ${ctx.todayWater.totalMl}ml (${ctx.todayWater.glasses} glasses)`;
+  }
+
+  if (ctx.todayActivity && ctx.todayActivity.totalBurned > 0) {
+    prompt += `\nActivity today: ${ctx.todayActivity.totalBurned} kcal burned across ${ctx.todayActivity.entries.length} workout(s) — adjusted budget is target + burned`;
   }
 
   if (ctx.streak && ctx.streak > 1) {

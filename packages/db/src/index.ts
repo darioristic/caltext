@@ -1,3 +1,4 @@
+export { deleteActivityEntry, getActivityForDate, logActivity } from "./activity";
 export { getRedis } from "./client";
 export {
   deleteDailyLog,

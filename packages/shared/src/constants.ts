@@ -92,3 +92,56 @@ export function recommendedTarget(actualTDEE: number, goal: string): number {
   const adjustment = GOAL_ADJUSTMENTS[goal] ?? 0;
   return Math.max(MIN_DAILY_CALORIES, Math.min(MAX_DAILY_CALORIES, actualTDEE + adjustment));
 }
+
+// ── Activity / exercise (MET-based calorie burn) ───────────────────────
+// MET = metabolic equivalent; kcal ≈ MET × weightKg × hours.
+export const MET_VALUES: Record<string, number> = {
+  walking: 3.5,
+  "brisk walking": 4.3,
+  running: 9.8,
+  jogging: 7,
+  cycling: 7.5,
+  "stationary bike": 7,
+  swimming: 8,
+  "weight training": 5,
+  strength: 5,
+  weights: 5,
+  gym: 5,
+  hiit: 8,
+  "interval training": 8,
+  elliptical: 5,
+  rowing: 7,
+  yoga: 2.5,
+  pilates: 3,
+  hiking: 6,
+  soccer: 7,
+  football: 7,
+  basketball: 6.5,
+  tennis: 7,
+  dancing: 5,
+  "jump rope": 11,
+  crossfit: 8,
+  boxing: 7.8,
+  climbing: 8,
+  skiing: 7,
+};
+
+/** Estimate calories burned from an activity name + duration + bodyweight. */
+export function estimateCaloriesBurned(
+  type: string,
+  durationMin: number,
+  weightKg: number,
+): number {
+  const key = type.toLowerCase().trim();
+  let met = MET_VALUES[key];
+  if (!met) {
+    for (const [k, v] of Object.entries(MET_VALUES)) {
+      if (key.includes(k) || k.includes(key)) {
+        met = v;
+        break;
+      }
+    }
+  }
+  met = met ?? 5; // sensible default for unknown moderate activity
+  return Math.round(met * weightKg * (durationMin / 60));
+}

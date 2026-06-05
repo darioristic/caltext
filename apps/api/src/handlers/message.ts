@@ -2,6 +2,7 @@ import { openai } from "@ai-sdk/openai";
 import type { ModelMessage } from "@caltext/ai";
 import { buildSystemPrompt, createCaltextAgent } from "@caltext/ai";
 import {
+  getActivityForDate,
   getConversationMessages,
   getDailyLog,
   getStreak,
@@ -58,9 +59,10 @@ export async function handleMessage(
   const conversationHistory = stripImagesFromHistory(rawHistory);
 
   const localDate = localDateString(user.timezone);
-  const [todayLog, todayWater] = await Promise.all([
+  const [todayLog, todayWater, todayActivity] = await Promise.all([
     getDailyLog(userId, localDate),
     getWaterLog(userId, localDate),
+    getActivityForDate(userId, localDate),
   ]);
 
   const hasImage = !!imageUrl;
@@ -88,6 +90,7 @@ export async function handleMessage(
     todayLog: todayLog.mealCount > 0 ? todayLog : null,
     streak: streak.current > 0 ? streak.current : null,
     todayWater: todayWater.totalMl > 0 ? todayWater : null,
+    todayActivity: todayActivity.totalBurned > 0 ? todayActivity : null,
     imageUrl,
   };
 

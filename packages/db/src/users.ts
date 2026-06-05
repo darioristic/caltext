@@ -99,7 +99,12 @@ export async function deleteAllUserData(userId: string): Promise<void> {
     keysToDelete.push(phoneIndexKey(user.phone));
   }
 
-  const wildcardPatterns = [`meals:${userId}:*`, `daily:${userId}:*`, `water:${userId}:*`];
+  const wildcardPatterns = [
+    `meals:${userId}:*`,
+    `daily:${userId}:*`,
+    `water:${userId}:*`,
+    `activity:${userId}:*`,
+  ];
 
   for (const pattern of wildcardPatterns) {
     let cursor = "0";

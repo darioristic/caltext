@@ -112,6 +112,19 @@ export interface WeightEntry {
   date: string; // YYYY-MM-DD
 }
 
+export interface ActivityEntry {
+  id: string;
+  type: string; // e.g. "running", "weight training"
+  durationMin: number;
+  kcal: number; // calories burned
+  ts: string; // ISO 8601 UTC
+}
+
+export interface DailyActivity {
+  totalBurned: number;
+  entries: ActivityEntry[];
+}
+
 export interface AgentContext {
   userId: string;
   userName: string;
@@ -125,6 +138,7 @@ export interface AgentContext {
   todayLog: DailyLog | null;
   streak: number | null;
   todayWater: WaterLog | null;
+  todayActivity: DailyActivity | null;
   imageUrl?: string; // if the user sent a photo
 }
 

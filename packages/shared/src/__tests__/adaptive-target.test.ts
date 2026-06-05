@@ -1,5 +1,11 @@
 import { describe, expect, test } from "bun:test";
-import { estimateActualTDEE, MAX_DAILY_CALORIES, MIN_DAILY_CALORIES, recommendedTarget } from "../constants";
+import {
+  estimateActualTDEE,
+  estimateCaloriesBurned,
+  MAX_DAILY_CALORIES,
+  MIN_DAILY_CALORIES,
+  recommendedTarget,
+} from "../constants";
 
 describe("estimateActualTDEE", () => {
   test("eating below maintenance and losing weight -> TDEE above intake", () => {
@@ -24,6 +30,21 @@ describe("estimateActualTDEE", () => {
 
   test("implausible result returns null", () => {
     expect(estimateActualTDEE(2000, -10, 14)).toBeNull();
+  });
+});
+
+describe("estimateCaloriesBurned", () => {
+  test("running 30 min at 80 kg ≈ MET 9.8 × 80 × 0.5", () => {
+    expect(estimateCaloriesBurned("running", 30, 80)).toBe(392);
+  });
+
+  test("fuzzy-matches partial names", () => {
+    // "trail running" contains "running" → MET 9.8
+    expect(estimateCaloriesBurned("trail running", 30, 80)).toBe(392);
+  });
+
+  test("unknown activity falls back to MET 5", () => {
+    expect(estimateCaloriesBurned("underwater basket weaving", 60, 80)).toBe(400);
   });
 });
 

@@ -1,6 +1,8 @@
 import { openai } from "@ai-sdk/openai";
 import type { LanguageModelV3 } from "@ai-sdk/provider";
 import { type ModelMessage, stepCountIs, type Tool, ToolLoopAgent } from "ai";
+import { getActivityTool, logActivityTool } from "./tools/activity";
+import { lookupBarcodeProductTool } from "./tools/barcode";
 import { deleteAccountTool } from "./tools/delete-account";
 import { deleteMealTool } from "./tools/delete-meal";
 import { exportDataTool } from "./tools/export-data";
@@ -49,6 +51,7 @@ export function createCaltextAgent(systemPrompt: string, ctx: AgentOptions) {
       ...(ctx.extraTools ?? {}),
       identifyFood: createIdentifyFoodTool(ctx.imageUrl),
       lookupNutrition,
+      lookupBarcodeProduct: lookupBarcodeProductTool,
       logMeal: withContext(logMeal, ctx),
       deleteMeal: withContext(deleteMealTool, ctx),
       getDailyLog: withContext(getDailyLogTool, ctx),
@@ -61,6 +64,8 @@ export function createCaltextAgent(systemPrompt: string, ctx: AgentOptions) {
       getWeightHistory: withContext(getWeightHistoryTool, ctx),
       analyzeProgress: withContext(analyzeProgressTool, ctx),
       recalibrateTarget: withContext(recalibrateTargetTool, ctx),
+      logActivity: withContext(logActivityTool, ctx),
+      getActivity: withContext(getActivityTool, ctx),
       setReminders: withContext(setRemindersTool, ctx),
       getReminders: withContext(getRemindersTool, ctx),
       saveFavorite: withContext(saveFavoriteTool, ctx),

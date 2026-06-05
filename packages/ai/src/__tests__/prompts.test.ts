@@ -44,6 +44,7 @@ const baseContext = {
   todayLog: null,
   streak: null,
   todayWater: null,
+  todayActivity: null,
 };
 
 function makeContext(overrides: Record<string, unknown> = {}) {

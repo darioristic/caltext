@@ -103,7 +103,10 @@ export const analyzeProgressTool = tool({
     let recommendTarget: number | null = null;
     if (wInWindow.length >= 2) {
       const t0 = Date.parse(wInWindow[0]!.date);
-      const pts = wInWindow.map((w) => ({ x: (Date.parse(w.date) - t0) / 86_400_000, y: w.weightKg }));
+      const pts = wInWindow.map((w) => ({
+        x: (Date.parse(w.date) - t0) / 86_400_000,
+        y: w.weightKg,
+      }));
       const perDay = slope(pts);
       if (perDay !== null) weightTrendKgPerWeek = round(perDay * 7, 2);
 
@@ -140,7 +143,10 @@ export const analyzeProgressTool = tool({
       weakestDayOverKcal: weakestDay ? round(weakestOver) : null,
       weightEntries: wInWindow.length,
       weightTrendKgPerWeek,
-      weightChangeKg: wInWindow.length >= 2 ? round(wInWindow.at(-1)!.weightKg - wInWindow[0]!.weightKg, 1) : null,
+      weightChangeKg:
+        wInWindow.length >= 2
+          ? round(wInWindow.at(-1)!.weightKg - wInWindow[0]!.weightKg, 1)
+          : null,
       actualTDEE,
       recommendedTarget: recommendTarget,
       targetSuggestionDiff: recommendTarget ? recommendTarget - target : null,
@@ -155,10 +161,16 @@ export const recalibrateTargetTool = tool({
     userId: z.string(),
     timezone: z.string(),
     newTargetKcal: z.number().describe("New daily calorie target in kcal"),
-    reason: z.string().optional().describe("Short reason, e.g. 'measured TDEE lower than predicted'"),
+    reason: z
+      .string()
+      .optional()
+      .describe("Short reason, e.g. 'measured TDEE lower than predicted'"),
   }),
   execute: async ({ userId, newTargetKcal, reason }) => {
-    const clamped = Math.max(MIN_DAILY_CALORIES, Math.min(MAX_DAILY_CALORIES, Math.round(newTargetKcal)));
+    const clamped = Math.max(
+      MIN_DAILY_CALORIES,
+      Math.min(MAX_DAILY_CALORIES, Math.round(newTargetKcal)),
+    );
     const user = await getUser(userId);
     const previous = user?.dailyCalorieTarget ?? null;
     await updateUser(userId, { dailyCalorieTarget: String(clamped) });

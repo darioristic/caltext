@@ -64,7 +64,10 @@ function weightPanel(data: ChartData, yTop: number): string {
 
   const line = pts.map((p) => `${sx(p.date).toFixed(1)},${sy(p.kg).toFixed(1)}`).join(" ");
   const dots = pts
-    .map((p) => `<circle cx="${sx(p.date).toFixed(1)}" cy="${sy(p.kg).toFixed(1)}" r="3.5" fill="${ACCENT}"/>`)
+    .map(
+      (p) =>
+        `<circle cx="${sx(p.date).toFixed(1)}" cy="${sy(p.kg).toFixed(1)}" r="3.5" fill="${ACCENT}"/>`,
+    )
     .join("");
 
   // linear regression trend line
