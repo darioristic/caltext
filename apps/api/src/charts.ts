@@ -136,12 +136,15 @@ function caloriePanel(data: ChartData, yTop: number): string {
 }
 
 export async function renderProgressChartPNG(data: ChartData): Promise<Buffer> {
-  const H = PANEL_H * 2 + 40;
+  const topPanel = 56;
+  const gap = 24;
+  const bottomMargin = 28;
+  const H = topPanel + PANEL_H + gap + PANEL_H + bottomMargin;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="Helvetica, Arial, sans-serif">
     <rect width="${W}" height="${H}" fill="#ffffff"/>
     <text x="${PAD}" y="34" fill="${FG}" font-size="22" font-weight="800">${esc(data.name)} · progress</text>
-    ${weightPanel(data, 56)}
-    ${caloriePanel(data, 56 + PANEL_H + 24)}
+    ${weightPanel(data, topPanel)}
+    ${caloriePanel(data, topPanel + PANEL_H + gap)}
   </svg>`;
   return sharp(Buffer.from(svg)).png().toBuffer();
 }

@@ -55,7 +55,13 @@ describe("buildSystemPrompt", () => {
     const prompt = buildSystemPrompt(makeContext());
     expect(prompt).toContain("Caltext");
     expect(prompt).toContain("English");
-    expect(prompt).toContain("Chill and minimal");
+    expect(prompt).toContain("balanced coach");
+  });
+
+  test("includes coaching instructions", () => {
+    const prompt = buildSystemPrompt(makeContext());
+    expect(prompt).toContain("analyzeProgress");
+    expect(prompt).toContain("sendProgressChart");
   });
 
   test("includes user profile when present", () => {
