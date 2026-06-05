@@ -27,7 +27,9 @@ jobs:
         run: bun run typecheck
 
       - name: Test
-        run: bun run test
+        run: bun --filter='*' test
+        env:
+          SKIP_ENV_VALIDATION: "true"
 
   # Self-hosted deploy: SSH to the server and run scripts/deploy.sh
   # (git pull → bun install → build libs+web+api → pm2 restart).
