@@ -27,6 +27,16 @@ export async function sendMessage(phone: string, text: string): Promise<void> {
   });
 }
 
+/** Send an image (MMS) by URL, with an optional text caption. */
+export async function sendMedia(phone: string, mediaUrl: string, text = ""): Promise<void> {
+  await sendblueRequest("/send-message", {
+    number: phone,
+    from_number: env.SENDBLUE_FROM_NUMBER,
+    content: text,
+    media_url: mediaUrl,
+  });
+}
+
 export async function sendTyping(phone: string): Promise<void> {
   await sendblueRequest("/send-typing-indicator", {
     number: phone,

@@ -73,8 +73,19 @@ export async function getWeeklyLogs(
   userId: string,
   endDate: string,
 ): Promise<{ date: string; log: DailyLog }[]> {
+  return getDailyLogsRange(userId, endDate, 7);
+}
+
+/** Daily logs for the `days` calendar days ending on (and including) `endDate`. */
+export async function getDailyLogsRange(
+  userId: string,
+  endDate: string,
+  days: number,
+): Promise<{ date: string; log: DailyLog }[]> {
   const end = parseISO(endDate);
-  const dates = Array.from({ length: 7 }, (_, i) => format(subDays(end, 6 - i), "yyyy-MM-dd"));
+  const dates = Array.from({ length: days }, (_, i) =>
+    format(subDays(end, days - 1 - i), "yyyy-MM-dd"),
+  );
   const logs = await Promise.all(dates.map((d) => getDailyLog(userId, d)));
   return dates.map((date, i) => ({ date, log: logs[i]! }));
 }

@@ -11,9 +11,10 @@ import {
 } from "@caltext/db";
 import type { AgentContext, UserProfile } from "@caltext/shared";
 import { getLocaleName, localDateString } from "@caltext/shared";
-import { pruneMessages } from "ai";
+import { pruneMessages, type Tool } from "ai";
 import type { RequestLogger } from "evlog";
 import { createAILogger } from "evlog/ai";
+import { createSendProgressChartTool } from "@/charts";
 
 function buildUserMessage(text: string, hasImage?: boolean): ModelMessage {
   if (hasImage) {
@@ -46,6 +47,7 @@ export async function handleMessage(
   user: UserProfile,
   text: string,
   imageUrl?: string,
+  rawPhone?: string,
 ): Promise<string | null> {
   const userId = user.id;
   const [rawHistory, memories, streak] = await Promise.all([
@@ -94,12 +96,22 @@ export async function handleMessage(
 
   const systemPrompt = buildSystemPrompt(ctx);
   const userMessage = buildUserMessage(text, hasImage);
+  const extraTools: Record<string, Tool> = {};
+  if (rawPhone) {
+    extraTools.sendProgressChart = createSendProgressChartTool({
+      userId,
+      timezone: user.timezone,
+      phone: rawPhone,
+    });
+  }
+
   const agent = createCaltextAgent(systemPrompt, {
     userId,
     timezone: user.timezone,
     hasImage,
     imageUrl,
     model,
+    extraTools,
   });
 
   const allMessages: ModelMessage[] = [...conversationHistory, userMessage];

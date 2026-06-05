@@ -8,6 +8,7 @@ import { listFavoritesTool, logFavoriteTool, saveFavoriteTool } from "./tools/fa
 import { getDailyLogTool, getWeeklyLogTool } from "./tools/get-history";
 import { getUserProfile } from "./tools/get-profile";
 import { createIdentifyFoodTool } from "./tools/identify-food";
+import { analyzeProgressTool, recalibrateTargetTool } from "./tools/insights";
 import { logMeal } from "./tools/log-meal";
 import { getWaterLogTool, logWaterTool } from "./tools/log-water";
 import { getWeightHistoryTool, logWeightTool } from "./tools/log-weight";
@@ -34,6 +35,8 @@ export interface AgentOptions extends AgentSecurityContext {
   hasImage?: boolean;
   imageUrl?: string;
   model?: LanguageModelV3;
+  /** Extra tools wired up by the host app (e.g. media/chart tools that need sharp). */
+  extraTools?: Record<string, Tool>;
 }
 
 export function createCaltextAgent(systemPrompt: string, ctx: AgentOptions) {
@@ -43,6 +46,7 @@ export function createCaltextAgent(systemPrompt: string, ctx: AgentOptions) {
     model,
     instructions: systemPrompt,
     tools: {
+      ...(ctx.extraTools ?? {}),
       identifyFood: createIdentifyFoodTool(ctx.imageUrl),
       lookupNutrition,
       logMeal: withContext(logMeal, ctx),
@@ -55,6 +59,8 @@ export function createCaltextAgent(systemPrompt: string, ctx: AgentOptions) {
       getWaterLog: withContext(getWaterLogTool, ctx),
       logWeight: withContext(logWeightTool, ctx),
       getWeightHistory: withContext(getWeightHistoryTool, ctx),
+      analyzeProgress: withContext(analyzeProgressTool, ctx),
+      recalibrateTarget: withContext(recalibrateTargetTool, ctx),
       setReminders: withContext(setRemindersTool, ctx),
       getReminders: withContext(getRemindersTool, ctx),
       saveFavorite: withContext(saveFavoriteTool, ctx),

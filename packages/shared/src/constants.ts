@@ -64,3 +64,31 @@ export function calculateTDEE(
   const raw = Math.round(bmr * multiplier + adjustment);
   return Math.max(MIN_DAILY_CALORIES, Math.min(MAX_DAILY_CALORIES, raw));
 }
+
+// ── Adaptive (data-driven) calorie target ──────────────────────────────
+// ~7700 kcal ≈ 1 kg of body mass change.
+export const KCAL_PER_KG = 7700;
+
+/**
+ * Estimate the user's *actual* maintenance calories (TDEE) from logged data:
+ * energy balance says weightChange ≈ (intake − TDEE) × days / KCAL_PER_KG, so
+ * TDEE = avgIntake − (weightChangeKg × KCAL_PER_KG / days).
+ * Returns null when there isn't enough signal to be meaningful.
+ */
+export function estimateActualTDEE(
+  avgDailyIntake: number,
+  weightChangeKg: number,
+  days: number,
+): number | null {
+  if (days < 7 || avgDailyIntake < MIN_DAILY_CALORIES * 0.5) return null;
+  const tdee = Math.round(avgDailyIntake - (weightChangeKg * KCAL_PER_KG) / days);
+  // Reject physiologically implausible estimates (usually bad weight data).
+  if (tdee < MIN_DAILY_CALORIES * 0.8 || tdee > MAX_DAILY_CALORIES) return null;
+  return tdee;
+}
+
+/** Recommended daily target = measured TDEE + the goal adjustment, clamped. */
+export function recommendedTarget(actualTDEE: number, goal: string): number {
+  const adjustment = GOAL_ADJUSTMENTS[goal] ?? 0;
+  return Math.max(MIN_DAILY_CALORIES, Math.min(MAX_DAILY_CALORIES, actualTDEE + adjustment));
+}

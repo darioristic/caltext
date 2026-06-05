@@ -1,6 +1,7 @@
 import { initLogger } from "evlog";
 import { type EvlogVariables, evlog } from "evlog/hono";
 import { Hono } from "hono";
+import { getChartPNG } from "@/charts";
 import { handleIncoming } from "@/handler";
 import { markRead, parseInbound } from "@/sendblue";
 
@@ -10,6 +11,17 @@ const app = new Hono<EvlogVariables>();
 app.use(evlog());
 
 app.get("/health", (c) => c.json({ status: "ok", service: "caltext" }));
+
+// Transient progress-chart images referenced by outbound MMS (media_url).
+app.get("/charts/:file", async (c) => {
+  const token = c.req.param("file").replace(/\.png$/, "");
+  const png = await getChartPNG(token);
+  if (!png) return c.json({ error: "not found" }, 404);
+  return c.body(new Uint8Array(png), 200, {
+    "Content-Type": "image/png",
+    "Cache-Control": "public, max-age=3600",
+  });
+});
 
 app.post("/webhooks/sendblue", async (c) => {
   const log = c.get("log");

@@ -2,6 +2,7 @@ export { getRedis } from "./client";
 export {
   deleteDailyLog,
   getDailyLog,
+  getDailyLogsRange,
   getWeeklyLogs,
   subtractDailyTotals,
   updateDailyTotals,

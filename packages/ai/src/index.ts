@@ -21,6 +21,7 @@ export {
   FOOD_IDENTIFICATION_PROMPT,
   foodIdentificationSchema,
 } from "./tools/identify-food";
+export { analyzeProgressTool, recalibrateTargetTool } from "./tools/insights";
 export { logMeal } from "./tools/log-meal";
 export { getWaterLogTool, logWaterTool } from "./tools/log-water";
 export { getWeightHistoryTool, logWeightTool } from "./tools/log-weight";

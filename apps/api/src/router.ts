@@ -45,6 +45,6 @@ export async function routeMessage(
   }
 
   log.set({ route: "message" });
-  const reply = await handleMessage(log, user, text, imageUrl);
+  const reply = await handleMessage(log, user, text, imageUrl, rawPhone);
   return reply ? [reply] : [];
 }
