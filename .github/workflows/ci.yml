@@ -27,13 +27,22 @@ jobs:
         run: bun run typecheck
 
       - name: Test
+        # Run per package directly (not via turbo, which strips undeclared env).
         run: |
           for p in shared db ai; do
             echo "── @caltext/$p ──"
             (cd "packages/$p" && bun test)
           done
         env:
-          SKIP_ENV_VALIDATION: "true"
+          # Dummy values so importing @caltext/shared (env validation) doesn't
+          # throw in CI; no real secrets are needed to run the unit tests.
+          SENDBLUE_API_KEY: ci
+          SENDBLUE_API_SECRET: ci
+          SENDBLUE_FROM_NUMBER: "+10000000000"
+          SENDBLUE_WEBHOOK_SECRET: ci
+          REDIS_URL: redis://localhost:6379
+          OPENAI_API_KEY: ci
+          ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
 
   # Self-hosted deploy: SSH to the server and run scripts/deploy.sh
   # (git pull → bun install → build libs+web+api → pm2 restart).
