@@ -111,9 +111,9 @@ describe("buildSystemPrompt", () => {
     expect(prompt2).not.toContain("Streak:");
   });
 
-  test("responds in Swedish when locale is sv", () => {
-    const prompt = buildSystemPrompt(makeContext({ locale: "sv" }));
-    expect(prompt).toContain("Swedish");
+  test("surfaces the user's language in the profile", () => {
+    const prompt = buildSystemPrompt(makeContext({ locale: "sv", localeName: "Swedish" }));
+    expect(prompt).toContain("Language: Swedish");
   });
 
   test("includes packaged product label instructions", () => {
