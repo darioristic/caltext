@@ -27,7 +27,12 @@ jobs:
         run: bun run typecheck
 
       - name: Test
-        run: bun --filter='*' test
+        run: |
+          echo "SKIP=$SKIP_ENV_VALIDATION NODE_ENV=$NODE_ENV"
+          cd packages/db
+          bun -e 'console.log("proc SKIP:", JSON.stringify(process.env.SKIP_ENV_VALIDATION)); try { const m = await import("@caltext/shared"); console.log("enc:", typeof m.encryptContent); } catch (e) { console.log("IMPORT THROW:", e.message.slice(0, 90)); }'
+          cd ../..
+          bun --filter='*' test
         env:
           SKIP_ENV_VALIDATION: "true"
 
